@@ -1,0 +1,99 @@
+{# 
+    SIDEBAR NAVIGATION COMPONENT
+    
+    HOW IT WORKS:
+    - Fixed position on left side of screen
+    - Uses HTMX for AJAX navigation without page reloads
+    - When user clicks a link, HTMX:
+        1. Makes GET request to Flask route (hx-get)
+        2. Swaps response into #content div (hx-target)
+        3. Updates browser URL (hx-push-url)
+        4. No full page reload - just the content area changes!
+    
+    HTMX ATTRIBUTES EXPLAINED:
+    - hx-get="/route" → Makes AJAX GET request to this URL
+    - hx-target="#content" → Puts response HTML into element with id="content"
+    - hx-swap="innerHTML" → Replace inner HTML (default behavior)
+    - hx-push-url="true" → Update browser URL bar for bookmarking/back button
+    
+    ACTIVE STATE:
+    - Uses Jinja2 conditional to highlight current page
+    - request.endpoint contains Flask route (e.g., 'dashboard.index')
+#}
+<aside class="fixed left-0 top-0 h-full flex flex-col z-40 bg-slate-100 h-screen w-64 border-r-0 transition-all duration-150">
+    <div class="p-6">
+        {# Logo / Brand #}
+        <h1 class="text-xl font-bold tracking-tighter text-slate-900 mb-1">Anodizing ERP</h1>
+        <p class="text-xs font-semibold text-on-surface-variant/60 tracking-tight">Finishing Labs</p>
+    </div>
+        
+    <nav class="flex-1 px-4 space-y-1">
+            
+            {# Dashboard Link #}
+        <a href="/" 
+           class="flex items-center gap-3 px-4 py-3 transition-all duration-150 {{ 'text-slate-950 border-r-4 border-slate-900 font-bold bg-slate-200 scale-[0.98]' if request.endpoint == 'dashboard.index' else 'text-slate-500 hover:text-slate-700 hover:bg-slate-200' }}"
+           hx-get="/" 
+           hx-target="#content" 
+           hx-swap="innerHTML" 
+           hx-push-url="true">
+            <i class="fas fa-th-large"></i>
+            <span class="font-semibold tracking-tight text-sm">Dashboard</span>
+        </a>
+            
+        {# Purchase Orders - PO Ledger #}
+        <a href="/orders" 
+           class="flex items-center gap-3 px-4 py-3 transition-colors {{ 'text-slate-950 border-r-4 border-slate-900 font-bold bg-slate-200 scale-[0.98]' if request.endpoint and 'orders' in request.endpoint else 'text-slate-500 hover:text-slate-700 hover:bg-slate-200' }}"
+           hx-get="/orders" 
+           hx-target="#content" 
+           hx-swap="innerHTML" 
+           hx-push-url="true">
+            <i class="fas fa-list-alt"></i>
+            <span class="font-semibold tracking-tight text-sm">PO Ledger</span>
+        </a>
+            
+        {# New PO Entry #}
+        <a href="/orders/create" 
+           class="flex items-center gap-3 px-4 py-3 transition-colors {{ 'text-slate-950 border-r-4 border-slate-900 font-bold bg-slate-200 scale-[0.98]' if request.endpoint == 'orders.create' else 'text-slate-500 hover:text-slate-700 hover:bg-slate-200' }}"
+           hx-get="/orders/create" 
+           hx-target="#content" 
+           hx-swap="innerHTML" 
+           hx-push-url="true">
+            <i class="fas fa-plus-square"></i>
+            <span class="font-semibold tracking-tight text-sm">Entry</span>
+        </a>
+            
+        {# Work Order Builder - Batching #}
+        <a href="/production/builder" 
+           class="flex items-center gap-3 px-4 py-3 transition-colors {{ 'text-slate-950 border-r-4 border-slate-900 font-bold bg-slate-200 scale-[0.98]' if request.endpoint == 'production.builder' else 'text-slate-500 hover:text-slate-700 hover:bg-slate-200' }}"
+           hx-get="/production/builder" 
+           hx-target="#content" 
+           hx-swap="innerHTML" 
+           hx-push-url="true">
+            <i class="fas fa-layer-group"></i>
+            <span class="font-semibold tracking-tight text-sm">Batching</span>
+        </a>
+            
+        {# Production/Work Orders #}
+        <a href="/production" 
+           class="flex items-center gap-3 px-4 py-3 transition-colors {{ 'text-slate-950 border-r-4 border-slate-900 font-bold bg-slate-200 scale-[0.98]' if request.endpoint == 'production.index' else 'text-slate-500 hover:text-slate-700 hover:bg-slate-200' }}"
+           hx-get="/production" 
+           hx-target="#content" 
+           hx-swap="innerHTML" 
+           hx-push-url="true">
+            <i class="fas fa-industry"></i>
+            <span class="font-semibold tracking-tight text-sm">Production</span>
+        </a>
+    </nav>
+    
+    {# Settings Footer #}
+    <div class="px-4 py-6 border-t border-slate-200/50">
+        <a href="#" class="flex items-center gap-3 px-4 py-2 text-slate-500 hover:bg-slate-200 transition-colors mb-1">
+            <i class="fas fa-cog"></i>
+            <span class="text-xs font-semibold uppercase tracking-widest">Settings</span>
+        </a>
+        <a href="#" class="flex items-center gap-3 px-4 py-2 text-slate-500 hover:bg-slate-200 transition-colors">
+            <i class="fas fa-question-circle"></i>
+            <span class="text-xs font-semibold uppercase tracking-widest">Support</span>
+        </a>
+    </div>
+</aside>

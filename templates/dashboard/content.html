@@ -1,0 +1,179 @@
+{# Dashboard Content - For HTMX partial swaps #}
+<div class="px-8 pb-12">
+    <!-- Dashboard Header -->
+    <header class="mb-10 flex justify-between items-end">
+        <div>
+            <h2 class="text-4xl font-extrabold text-on-primary-fixed tracking-tight mb-2">Operations Overview</h2>
+            <p class="text-on-surface-variant font-medium">Real-time throughput for Plant Alpha - Ledger System.</p>
+        </div>
+        <div class="flex gap-2">
+            <div class="bg-surface-container-low px-4 py-2 rounded-sm border-b-2 border-primary">
+                <span class="text-[10px] uppercase tracking-tighter font-bold text-on-surface-variant block">System Status</span>
+                <span class="text-sm font-bold flex items-center gap-2 text-tertiary">
+                    <span class="w-2 h-2 rounded-full bg-tertiary-fixed-dim inline-block"></span> Optimal 98.4%
+                </span>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Metrics Grid (Asymmetric Bento) -->
+    <div class="grid grid-cols-12 gap-6 mb-10">
+        <!-- Major Metric -->
+        <div class="col-span-12 lg:col-span-4 bg-primary text-white p-8 flex flex-col justify-between relative overflow-hidden group">
+            <div class="relative z-10">
+                <span class="text-primary-fixed uppercase text-[11px] font-bold tracking-[0.2em] mb-4 block">Current Throughput</span>
+                <div class="text-7xl font-black font-headline">84</div>
+                <p class="text-primary-fixed-dim text-sm mt-4 font-medium italic opacity-80">WOs in Production Stage</p>
+            </div>
+            <div class="mt-8 flex gap-4 relative z-10">
+                <div class="flex-1 bg-white/10 p-4 backdrop-blur-md">
+                    <span class="block text-[10px] uppercase font-bold text-primary-fixed mb-1">Queue</span>
+                    <span class="text-xl font-bold">12</span>
+                </div>
+                <div class="flex-1 bg-white/10 p-4 backdrop-blur-md">
+                    <span class="block text-[10px] uppercase font-bold text-primary-fixed mb-1">Sealing</span>
+                    <span class="text-xl font-bold">28</span>
+                </div>
+            </div>
+            <!-- Abstract industrial texture bg -->
+            <div class="absolute -right-4 -bottom-4 opacity-10 group-hover:scale-110 transition-transform duration-700">
+                <i class="fas fa-industry text-[160px]"></i>
+            </div>
+        </div>
+        
+        <!-- Active POs Card -->
+        <div class="col-span-12 md:col-span-6 lg:col-span-4 bg-surface-container-lowest p-8 flex flex-col justify-between">
+            <div>
+                <div class="flex justify-between items-start mb-6">
+                    <span class="text-on-surface-variant uppercase text-[11px] font-bold tracking-widest">Active POs</span>
+                    <i class="fas fa-receipt text-primary"></i>
+                </div>
+                <div class="text-5xl font-black text-on-surface">142</div>
+            </div>
+            <div class="mt-8">
+                <div class="h-1 bg-surface-container-high w-full">
+                    <div class="h-1 bg-tertiary-fixed-dim w-[72%]"></div>
+                </div>
+                <p class="text-xs text-on-surface-variant mt-3 font-semibold">72% Goal Completion</p>
+            </div>
+        </div>
+        
+        <!-- Shipments Card -->
+        <div class="col-span-12 md:col-span-6 lg:col-span-4 bg-surface-container-low p-8 border-l-4 border-secondary">
+            <div class="flex justify-between items-start mb-6">
+                <span class="text-on-secondary-fixed-variant uppercase text-[11px] font-bold tracking-widest">Pending Shipments</span>
+                <i class="fas fa-shipping-fast text-secondary"></i>
+            </div>
+            <div class="text-5xl font-black text-on-surface mb-2">28</div>
+            <p class="text-xs text-on-surface-variant leading-relaxed">6 High Priority shipments scheduled for departure in <span class="text-error font-bold italic">2 hours</span>.</p>
+            <div class="mt-6 flex flex-wrap gap-2">
+                <span class="bg-surface-container-lowest px-2 py-1 text-[10px] font-black uppercase border-b border-secondary">Truck-402</span>
+                <span class="bg-surface-container-lowest px-2 py-1 text-[10px] font-black uppercase border-b border-secondary">LTL-Express</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Section Grid -->
+    <div class="grid grid-cols-12 gap-8 items-start">
+        <!-- Shop Floor Status (Production View) - OUT OF SCOPE -->
+        <!-- 
+            FEATURE: Real-time Production Line Monitoring
+            - Live anodizing tank stage tracking
+            - Per-unit progress visualization
+            - Tank chemistry metrics (pH levels, downtime, energy consumption, reject rates)
+            - Multi-line switching interface
+            
+            SCOPE: This feature is outside current MVP scope. 
+            Current scope focuses on PO entry, work order batching, and ledger tracking.
+            Real-time tank monitoring will be Phase 2.
+        -->
+        <div class="col-span-12 lg:col-span-8 bg-black p-8 flex items-center justify-center" style="min-height: 400px;">
+            <div class="text-center space-y-4">
+                <i class="fas fa-industry text-white/20 text-6xl"></i>
+                <p class="text-white/40 text-sm font-bold uppercase tracking-widest">Shop Floor Status</p>
+                <p class="text-white/20 text-xs">Real-time Production Monitoring - Phase 2 Feature</p>
+            </div>
+        </div>
+        
+        <!-- Recent Activity Feed -->
+        <div class="col-span-12 lg:col-span-4 bg-surface-container-low p-8">
+            <h3 class="text-xl font-bold tracking-tighter uppercase text-on-surface mb-8">Recent Activity</h3>
+            <div class="space-y-6">
+                <!-- Activity Item -->
+                <div class="flex gap-4">
+                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-tertiary-container flex items-center justify-center">
+                        <i class="fas fa-check-circle text-sm text-tertiary-fixed-dim"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold text-on-surface">WO-90344 Completed Seal</p>
+                        <p class="text-xs text-on-surface-variant mt-1">Operator: M. Rodriguez</p>
+                        <span class="text-[10px] uppercase font-bold text-outline mt-2 block">14:02 PM</span>
+                    </div>
+                </div>
+                
+                <!-- Activity Item -->
+                <div class="flex gap-4">
+                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary-container flex items-center justify-center">
+                        <i class="fas fa-plus-square text-sm text-primary-fixed-dim"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold text-on-surface">New PO: Architectural Series-A</p>
+                        <p class="text-xs text-on-surface-variant mt-1">Customer: Vertex Dev Group</p>
+                        <span class="text-[10px] uppercase font-bold text-outline mt-2 block">12:55 PM</span>
+                    </div>
+                </div>
+                
+                <!-- Activity Item (Alert) -->
+                <div class="flex gap-4">
+                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-error-container flex items-center justify-center">
+                        <i class="fas fa-exclamation-triangle text-sm text-error"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold text-error">Tank 02 pH Alert</p>
+                        <p class="text-xs text-on-surface-variant mt-1">Automated sensor trigger. Calibration required.</p>
+                        <span class="text-[10px] uppercase font-bold text-outline mt-2 block">11:30 AM</span>
+                    </div>
+                </div>
+                
+                <!-- Activity Item -->
+                <div class="flex gap-4">
+                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center">
+                        <i class="fas fa-shipping-fast text-sm text-on-secondary-container"></i>
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold text-on-surface">Shipment Shipped: WO-8812</p>
+                        <p class="text-xs text-on-surface-variant mt-1">Dest: Miami Logistics Hub</p>
+                        <span class="text-[10px] uppercase font-bold text-outline mt-2 block">09:15 AM</span>
+                    </div>
+                </div>
+            </div>
+            <button class="w-full mt-10 py-3 border border-outline-variant/30 text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-surface-container-highest transition-colors">
+                View Full Audit Log
+            </button>
+        </div>
+    </div>
+    
+    <!-- Batch Consistency Trend (OUT OF SCOPE - Phase 2) -->
+    <!--
+        FEATURE: Precision Metrics & Analytics Visualization
+        - Batch consistency trend analysis
+        - Surface finish consistency over time
+        - Statistical variance and standard deviation metrics
+        - Chart visualization for oxide layer distribution
+        
+        SCOPE: This analytics feature is outside current MVP scope.
+        Current scope focuses on ledger management and basic tracking.
+        Advanced analytics and visualization will be Phase 2.
+    -->
+    <div class="mt-8 grid grid-cols-12">
+        <div class="col-span-12 bg-black p-0 flex flex-col md:flex-row overflow-hidden shadow-sm" style="min-height: 250px;">
+            <div class="flex-1 p-8 flex items-center justify-center">
+                <div class="text-center space-y-4">
+                    <i class="fas fa-chart-line text-white/20 text-6xl"></i>
+                    <p class="text-white/40 text-sm font-bold uppercase tracking-widest">Batch Consistency Trend</p>
+                    <p class="text-white/20 text-xs">Advanced Analytics & Visualization - Phase 2 Feature</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
