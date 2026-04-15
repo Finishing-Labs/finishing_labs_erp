@@ -15,6 +15,12 @@ dashboard_bp = Blueprint('dashboard', __name__)
 
 @dashboard_bp.route('/')
 def index():
-
-    return render_template('dashboard/content.html', page_title='Dashboard')
+    """
+    Dashboard homepage
+    
+    Returns content partial for HTMX, full page for direct navigation
+    """
+    if request.headers.get('HX-Request'):
+        return render_template('dashboard/content.html', page_title='Dashboard')
+    return render_template('dashboard/index.html', page_title='Dashboard')
 

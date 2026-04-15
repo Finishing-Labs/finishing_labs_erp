@@ -1,0 +1,163 @@
+<!-- Page Header Asymmetric Layout -->
+<div class="px-8 pb-12">
+<div class="flex justify-between items-end mb-8">
+    <div>
+        <h2 class="text-5xl font-bold tracking-tighter text-primary">Create Packing Slip</h2>
+        <p class="text-on-surface-variant mt-2 max-w-md">Generate a packing slip for order fulfillment. Select items from purchase orders ready for shipment.</p>
+    </div>
+    <div class="flex gap-4">
+        <button class="flex items-center gap-2 px-6 py-2 text-primary font-bold border-b-2 border-tertiary-fixed-dim hover:bg-surface-container-low transition-colors">
+            <i class="fas fa-print text-sm"></i>
+            <span class="text-[11px] uppercase tracking-widest">Preview</span>
+        </button>
+    </div>
+</div>
+
+<!-- Slip Header Section (Asymmetric Tonal Grid) -->
+<section class="grid grid-cols-12 gap-8 mb-8">
+    <div class="col-span-12 lg:col-span-8 bg-surface-container-low p-8 rounded-sm">
+        <div class="grid grid-cols-3 gap-8">
+            <!-- Purchase Order Dropdown -->
+            <div class="flex flex-col gap-2">
+                <label class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Purchase Order</label>
+                <select class="bg-transparent border-b-2 border-outline-variant py-2 text-primary font-semibold text-lg focus:bg-surface-container-high transition-all">
+                    <option>PO-8829-XL</option>
+                    <option>PO-8835-MD</option>
+                    <option>PO-8901-XL</option>
+                </select>
+            </div>
+            <!-- Slip Number -->
+            <div class="flex flex-col gap-2">
+                <label class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Slip Number</label>
+                <input class="bg-transparent border-b-2 border-outline-variant py-2 text-primary font-semibold text-lg focus:bg-surface-container-high transition-all" placeholder="PS-0001" type="text"/>
+            </div>
+            <!-- Ship Date -->
+            <div class="flex flex-col gap-2">
+                <label class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Ship Date</label>
+                <input class="bg-transparent border-b-2 border-outline-variant py-2 text-primary font-semibold text-lg focus:bg-surface-container-high transition-all" type="date" value="2024-01-15"/>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Quick Summary / Metadata (Glassmorphism) -->
+    <div class="col-span-12 lg:col-span-4 bg-primary-container p-8 rounded-sm flex flex-col justify-center items-center text-white relative overflow-hidden">
+        <div class="z-10 text-center space-y-4">
+            <i class="fas fa-box text-white/20 text-6xl"></i>
+            <p class="text-white/40 text-sm font-bold uppercase tracking-widest">New Feature</p>
+        </div>
+        <div class="absolute -right-4 -bottom-4 opacity-10">
+            <i class="fas fa-box text-[120px]"></i>
+        </div>
+    </div>
+</section>
+
+<!-- Shipping Details Section -->
+<section class="grid grid-cols-12 gap-8 mb-8">
+    <div class="col-span-12 lg:col-span-6 bg-surface-container-low p-8 rounded-sm">
+        <h4 class="font-headline font-bold text-xl uppercase tracking-tighter mb-6">Ship To Address</h4>
+        <div class="space-y-4">
+            <div class="flex flex-col gap-2">
+                <label class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Company Name</label>
+                <input class="bg-transparent border-b-2 border-outline-variant py-2 text-primary font-semibold focus:bg-surface-container-high transition-all" placeholder="Company name" type="text"/>
+            </div>
+            <div class="flex flex-col gap-2">
+                <label class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Street Address</label>
+                <input class="bg-transparent border-b-2 border-outline-variant py-2 text-primary font-semibold focus:bg-surface-container-high transition-all" placeholder="Street address" type="text"/>
+            </div>
+            <div class="grid grid-cols-3 gap-4">
+                <div class="flex flex-col gap-2">
+                    <label class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">City</label>
+                    <input class="bg-transparent border-b-2 border-outline-variant py-2 text-primary font-semibold focus:bg-surface-container-high transition-all" placeholder="City" type="text"/>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">State</label>
+                    <input class="bg-transparent border-b-2 border-outline-variant py-2 text-primary font-semibold focus:bg-surface-container-high transition-all" placeholder="State" type="text"/>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">ZIP</label>
+                    <input class="bg-transparent border-b-2 border-outline-variant py-2 text-primary font-semibold focus:bg-surface-container-high transition-all" placeholder="ZIP" type="text"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-span-12 lg:col-span-6 bg-surface-container-low p-8 rounded-sm">
+        <h4 class="font-headline font-bold text-xl uppercase tracking-tighter mb-6">Carrier Information</h4>
+        <div class="space-y-4">
+            <div class="flex flex-col gap-2">
+                <label class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Carrier</label>
+                <select class="bg-transparent border-b-2 border-outline-variant py-2 text-primary font-semibold focus:bg-surface-container-high transition-all">
+                    <option>FedEx</option>
+                    <option>UPS</option>
+                    <option>USPS</option>
+                    <option>DHL</option>
+                    <option>Local Delivery</option>
+                </select>
+            </div>
+            <div class="flex flex-col gap-2">
+                <label class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Tracking Number</label>
+                <input class="bg-transparent border-b-2 border-outline-variant py-2 text-primary font-semibold focus:bg-surface-container-high transition-all" placeholder="Enter tracking number" type="text"/>
+            </div>
+            <div class="flex flex-col gap-2">
+                <label class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Service Type</label>
+                <select class="bg-transparent border-b-2 border-outline-variant py-2 text-primary font-semibold focus:bg-surface-container-high transition-all">
+                    <option>Standard Ground</option>
+                    <option>Express</option>
+                    <option>Next Day Air</option>
+                    <option>2-Day Air</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Items Selection (Industrial Technical Ledger Style) -->
+<section class="bg-surface-container-lowest shadow-sm rounded-sm overflow-hidden flex flex-col">
+    <div class="flex justify-between items-center px-8 py-6 bg-surface-container-low border-b border-outline-variant/10">
+        <h4 class="font-headline font-bold text-xl uppercase tracking-tighter">Items to Ship</h4>
+        <div class="flex gap-4">
+            <button class="bg-secondary-container text-on-secondary-container px-4 py-2 text-[10px] uppercase tracking-widest font-black rounded-sm flex items-center gap-2 hover:opacity-80 transition-all">
+                <i class="fas fa-plus-circle text-sm"></i>
+                Add Item
+            </button>
+        </div>
+    </div>
+    
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-surface">
+                    <th class="px-8 py-4 text-[11px] uppercase tracking-widest font-bold text-on-surface-variant border-b border-outline-variant/10">#</th>
+                    <th class="px-4 py-4 text-[11px] uppercase tracking-widest font-bold text-on-surface-variant border-b border-outline-variant/10">Part Number</th>
+                    <th class="px-4 py-4 text-[11px] uppercase tracking-widest font-bold text-on-surface-variant border-b border-outline-variant/10">Description</th>
+                    <th class="px-4 py-4 text-[11px] uppercase tracking-widest font-bold text-on-surface-variant border-b border-outline-variant/10">Qty Ordered</th>
+                    <th class="px-4 py-4 text-[11px] uppercase tracking-widest font-bold text-on-surface-variant border-b border-outline-variant/10">Qty Shipping</th>
+                    <th class="px-8 py-4 text-[11px] uppercase tracking-widest font-bold text-on-surface-variant border-b border-outline-variant/10"></th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-outline-variant/5">
+                <!-- Empty state -->
+                <tr>
+                    <td colspan="6" class="px-8 py-12 text-center text-on-surface-variant">
+                        <i class="fas fa-box-open text-4xl mb-4 text-outline-variant"></i>
+                        <p class="text-sm font-semibold">No items selected</p>
+                        <p class="text-xs mt-1">Select a purchase order to load available items</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- Action Buttons -->
+<div class="flex justify-end gap-4 mt-8">
+    <button class="px-8 py-4 bg-surface-container-low text-on-surface text-[11px] font-bold tracking-widest uppercase rounded-sm hover:bg-surface-container transition-colors">
+        Cancel
+    </button>
+    <button class="px-8 py-4 bg-tertiary-fixed text-on-tertiary-fixed text-[11px] font-bold tracking-widest uppercase rounded-sm hover:bg-tertiary-fixed-dim transition-colors flex items-center gap-2">
+        <i class="fas fa-save"></i>
+        Create Packing Slip
+    </button>
+</div>
+
+</div>

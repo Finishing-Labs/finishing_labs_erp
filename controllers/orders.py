@@ -15,15 +15,27 @@ orders_bp = Blueprint('orders', __name__)
 
 @orders_bp.route('/')
 def index():
-
-    return render_template('orders/content.html', page_title='Purchase Orders')
+    """
+    Purchase orders list
+    
+    Returns content partial for HTMX, full page for direct navigation
+    """
+    if request.headers.get('HX-Request'):
+        return render_template('orders/content.html', page_title='Purchase Orders')
+    return render_template('orders/index.html', page_title='Purchase Orders')
 
 
 
 @orders_bp.route('/create')
 def create():
-
-    return render_template('orders/create_content.html', page_title='New Purchase Order')
+    """
+    Create new purchase order form
+    
+    Returns content partial for HTMX, full page for direct navigation
+    """
+    if request.headers.get('HX-Request'):
+        return render_template('orders/create_content.html', page_title='New Purchase Order')
+    return render_template('orders/create.html', page_title='New Purchase Order')
 
 
 

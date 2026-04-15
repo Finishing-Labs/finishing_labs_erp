@@ -1,13 +1,14 @@
 <!-- Page Header Asymmetric Layout -->
+<div class="px-8 pb-12">
 <div class="flex justify-between items-end mb-8">
     <div>
-        <h3 class="text-4xl font-bold tracking-tighter text-primary">New Purchase Order</h3>
+        <h2 class="text-5xl font-bold tracking-tighter text-primary">New Purchase Order</h2>
         <p class="text-on-surface-variant mt-2 max-w-md">Initialize a new anodizing workflow. Ensure customer specifications match current tank chemistry requirements.</p>
     </div>
     <div class="flex gap-4">
         <button class="flex items-center gap-2 px-6 py-2 text-primary font-bold border-b-2 border-tertiary-fixed-dim hover:bg-surface-container-low transition-colors">
             <i class="fas fa-file-upload text-sm"></i>
-            <span class="text-[11px] uppercase tracking-widest">Import CSV</span>
+            <span class="text-[11px] uppercase tracking-widest">Import PDF</span>
         </button>
     </div>
 </div>
@@ -40,19 +41,10 @@
     </div>
     
     <!-- Quick Summary / Metadata (Glassmorphism) -->
-    <div class="col-span-12 lg:col-span-4 bg-primary-container p-8 rounded-sm flex flex-col justify-between text-white relative overflow-hidden">
-        <div class="z-10">
-            <span class="text-[10px] uppercase tracking-widest font-bold opacity-60">System Metadata</span>
-            <div class="mt-4 flex flex-col gap-2">
-                <div class="flex justify-between items-center border-b border-white/10 pb-2">
-                    <span class="text-xs opacity-80">Origin Station</span>
-                    <span class="font-headline font-bold">Alpha-7</span>
-                </div>
-                <div class="flex justify-between items-center border-b border-white/10 pb-2">
-                    <span class="text-xs opacity-80">Line Priority</span>
-                    <span class="text-tertiary-fixed font-bold">Standard</span>
-                </div>
-            </div>
+    <div class="col-span-12 lg:col-span-4 bg-primary-container p-8 rounded-sm flex flex-col justify-center items-center text-white relative overflow-hidden">
+        <div class="z-10 text-center space-y-4">
+            <i class="fas fa-cogs text-white/20 text-6xl"></i>
+            <p class="text-white/40 text-sm font-bold uppercase tracking-widest">New Feature</p>
         </div>
         <div class="absolute -right-4 -bottom-4 opacity-10">
             <i class="fas fa-cogs text-[120px]"></i>
@@ -189,11 +181,11 @@
         <div class="flex gap-8 text-[11px] uppercase tracking-widest font-bold">
             <div class="flex flex-col items-end">
                 <span class="text-on-surface-variant text-[9px]">Total Units</span>
-                <span class="text-lg font-headline">195</span>
+                <span class="text-lg font-headline">0</span>
             </div>
             <div class="flex flex-col items-end">
                 <span class="text-on-surface-variant text-[9px]">Line Items</span>
-                <span class="text-lg font-headline">02</span>
+                <span class="text-lg font-headline">0</span>
             </div>
         </div>
     </div>
@@ -205,6 +197,7 @@
         Discard Draft
     </button>
     <button class="px-10 py-3 bg-primary text-white text-[11px] font-black uppercase tracking-[0.2em] rounded-sm shadow-xl hover:shadow-primary/20 transition-all active:scale-[0.98]">
-        Generate Order Ticket
+        Generate New PO
     </button>
+</div>
 </div>

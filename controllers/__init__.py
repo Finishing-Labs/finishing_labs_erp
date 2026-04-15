@@ -31,3 +31,11 @@ def register_blueprints(app):
     # Production blueprint - Work order tracking
     from .production import production_bp
     app.register_blueprint(production_bp, url_prefix='/production')
+    
+    # Packing Slips blueprint - Packing slip creation and management
+    from .packing_slips import packing_slips_bp
+    app.register_blueprint(packing_slips_bp, url_prefix='/packing-slips')
+    
+    # Customers blueprint - Customer management
+    from .customers import customers_bp
+    app.register_blueprint(customers_bp, url_prefix='/customers')

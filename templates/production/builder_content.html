@@ -1,106 +1,79 @@
 <!-- Page Header Area -->
+<div class="px-8 pb-12">
 <div class="flex justify-between items-end mb-8">
     <div class="space-y-1">
         <h2 class="text-5xl font-bold tracking-tighter text-primary">Work Order Builder</h2>
-        <p class="text-on-surface-variant text-sm tracking-tight font-medium">Batch items into a new production run for the anodizing tanks.</p>
+        <p class="text-on-surface-variant text-sm tracking-tight font-medium">Select a purchase order, then choose line items to batch into a work order.</p>
     </div>
     <div class="flex gap-4 items-center bg-surface-container-low px-6 py-4 rounded-sm">
         <div class="text-right">
             <div class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Selected Items</div>
-            <div class="text-2xl font-black text-primary">08 <span class="text-sm font-medium text-on-surface-variant">/ 32 Max</span></div>
+            <div class="text-2xl font-black text-primary">0 <span class="text-sm font-medium text-on-surface-variant">/ 0 Max</span></div>
         </div>
         <div class="w-px h-10 bg-outline-variant/30 mx-2"></div>
         <div class="text-right">
             <div class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Batch Weight</div>
-            <div class="text-2xl font-black text-primary">420 <span class="text-sm font-medium text-on-surface-variant">lbs</span></div>
+            <div class="text-2xl font-black text-primary">0 <span class="text-sm font-medium text-on-surface-variant">lbs</span></div>
         </div>
     </div>
 </div>
 
 <!-- Main Builder Grid -->
 <div class="grid grid-cols-12 gap-8 flex-1">
-    <!-- Left Panel: Available Items -->
+    <!-- Left Panel: PO Selection & Line Items -->
     <section class="col-span-7 flex flex-col gap-4">
+        <!-- PO Selector -->
+        <div class="bg-surface-container-low rounded-sm p-6">
+            <label class="text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant mb-3 block">Select Purchase Order</label>
+            <select class="w-full bg-surface-container-lowest border-2 border-outline-variant px-4 py-3 rounded-sm text-sm font-bold text-primary focus:ring-2 focus:ring-primary focus:border-primary">
+                <option>-- Choose a PO to view line items --</option>
+                <option>PO-94022 - Skyline Facades (3 items, 150 units)</option>
+                <option>PO-94025 - Lumina Glazing (2 items, 120 units)</option>
+                <option>PO-93881 - Stark Industries (5 items, 200 units) - RUSH</option>
+                <option>PO-94030 - ZenCo Corp (4 items, 180 units)</option>
+            </select>
+        </div>
+        
+        <!-- Line Items from Selected PO -->
         <div class="flex justify-between items-center">
-            <h3 class="text-sm font-bold uppercase tracking-[0.2em] text-primary">Available Items</h3>
-            <div class="flex gap-2">
-                <button class="px-3 py-1 bg-surface-container-high text-[10px] font-bold uppercase tracking-widest text-primary border-b-2 border-primary">All POs</button>
-                <button class="px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant hover:bg-surface-container-low">High Priority</button>
-                <button class="px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant hover:bg-surface-container-low">Large Format</button>
-            </div>
+            <h3 class="text-sm font-bold uppercase tracking-[0.2em] text-primary">Line Items from PO</h3>
+            <span class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Click to add to work order</span>
         </div>
         
         <div class="bg-surface-container-low rounded-sm p-1 overflow-hidden flex flex-col">
             <div class="grid grid-cols-12 px-4 py-3 text-[10px] font-black uppercase tracking-widest text-on-surface-variant border-b border-outline-variant/10">
                 <div class="col-span-1">Add</div>
-                <div class="col-span-2">PO #</div>
-                <div class="col-span-4">Item Description</div>
+                <div class="col-span-2">Line #</div>
+                <div class="col-span-4">Part Description</div>
                 <div class="col-span-2 text-right">Qty</div>
-                <div class="col-span-3 text-right">Material</div>
+                <div class="col-span-3 text-right">Finish</div>
             </div>
             
             <div class="overflow-y-auto no-scrollbar space-y-1 p-1" style="max-height: 600px;">
-                <!-- Item Card 1 -->
+                <!-- Empty State - No PO Selected -->
+                <div class="flex flex-col items-center justify-center py-16 px-8">
+                    <i class="fas fa-file-invoice text-on-surface-variant/20 text-6xl mb-4"></i>
+                    <p class="text-on-surface-variant text-sm font-bold uppercase tracking-widest text-center">Select a purchase order above</p>
+                    <p class="text-on-surface-variant/60 text-xs text-center mt-2">Line items will appear here once you choose a PO</p>
+                </div>
+                
+                <!-- Example Line Items (hidden until PO selected) -->
+                <!-- 
                 <div class="grid grid-cols-12 items-center px-4 py-4 bg-surface-container-lowest rounded-sm hover:bg-primary-fixed/30 transition-all cursor-pointer group">
                     <div class="col-span-1">
                         <i class="fas fa-plus-circle text-primary-container group-hover:scale-125 transition-transform"></i>
                     </div>
-                    <div class="col-span-2 font-bold text-primary">PO-94022</div>
+                    <div class="col-span-2 font-bold text-primary">Line 01</div>
                     <div class="col-span-4">
                         <div class="text-xs font-semibold text-on-surface">6063 Aluminum Extrusion</div>
-                        <div class="text-[10px] text-on-surface-variant">L: 144" | W: 12.5 lbs</div>
+                        <div class="text-[10px] text-on-surface-variant">Part: AL-EXT-4022</div>
                     </div>
-                    <div class="col-span-2 text-right text-xs font-bold">48 Units</div>
+                    <div class="col-span-2 text-right text-xs font-bold">0 Units</div>
                     <div class="col-span-3 text-right">
-                        <span class="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase bg-surface-container-highest text-on-surface-variant">Class II Clear</span>
+                        <span class="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase bg-surface-container-highest text-on-surface-variant">Clear Anodize</span>
                     </div>
                 </div>
-                
-                <!-- Item Card 2 -->
-                <div class="grid grid-cols-12 items-center px-4 py-4 bg-surface-container-lowest rounded-sm hover:bg-primary-fixed/30 transition-all cursor-pointer group">
-                    <div class="col-span-1">
-                        <i class="fas fa-plus-circle text-primary-container group-hover:scale-125 transition-transform"></i>
-                    </div>
-                    <div class="col-span-2 font-bold text-primary">PO-94025</div>
-                    <div class="col-span-4">
-                        <div class="text-xs font-semibold text-on-surface">Architectural Railing Segment</div>
-                        <div class="text-[10px] text-on-surface-variant">L: 96" | W: 8.2 lbs</div>
-                    </div>
-                    <div class="col-span-2 text-right text-xs font-bold">120 Units</div>
-                    <div class="col-span-3 text-right">
-                        <span class="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase bg-tertiary-container text-on-tertiary-container">Satin Bronze</span>
-                    </div>
-                </div>
-                
-                <!-- Item Card 3 (RUSH) -->
-                <div class="grid grid-cols-12 items-center px-4 py-4 bg-surface-container-lowest rounded-sm hover:bg-primary-fixed/30 transition-all cursor-pointer group border-l-4 border-error">
-                    <div class="col-span-1">
-                        <i class="fas fa-plus-circle text-primary-container group-hover:scale-125 transition-transform"></i>
-                    </div>
-                    <div class="col-span-2 font-bold text-primary">PO-93881</div>
-                    <div class="col-span-4">
-                        <div class="text-xs font-semibold text-on-surface">Custom Louver Blade A</div>
-                        <div class="text-[10px] text-on-surface-variant">L: 210" | W: 18.0 lbs</div>
-                    </div>
-                    <div class="col-span-2 text-right text-xs font-bold text-error">RUSH: 12</div>
-                    <div class="col-span-3 text-right">
-                        <span class="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase bg-surface-container-highest text-on-surface-variant">Black Matte</span>
-                    </div>
-                </div>
-                
-                <!-- Item Card 4 -->
-                <div class="grid grid-cols-12 items-center px-4 py-4 bg-surface-container-lowest/40 rounded-sm opacity-60">
-                    <div class="col-span-1"><i class="fas fa-plus-circle"></i></div>
-                    <div class="col-span-2 font-bold">PO-94030</div>
-                    <div class="col-span-4">
-                        <div class="text-xs font-semibold">Standard Corner Guard</div>
-                        <div class="text-[10px]">L: 48" | W: 2.1 lbs</div>
-                    </div>
-                    <div class="col-span-2 text-right text-xs font-bold">250 Units</div>
-                    <div class="col-span-3 text-right">
-                        <span class="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase bg-surface-container-highest">Clear Anodize</span>
-                    </div>
-                </div>
+                -->
             </div>
         </div>
     </section>
@@ -137,44 +110,32 @@
             <!-- Current Batch Composition -->
             <div class="flex-1 flex flex-col gap-4">
                 <div class="flex justify-between items-center border-b border-on-primary-fixed-variant pb-2">
-                    <span class="text-[10px] font-bold uppercase tracking-widest">Composition</span>
-                    <span class="text-[10px] font-bold uppercase tracking-widest opacity-60">Drag to reorder</span>
+                    <span class="text-[10px] font-bold uppercase tracking-widest">Line Items in Batch</span>
+                    <span class="text-[10px] font-bold uppercase tracking-widest opacity-60">0 items</span>
                 </div>
                 
                 <div class="space-y-3">
-                    <!-- Selected Item 1 -->
+                    <!-- Empty State / Instruction -->
+                    <div class="border-2 border-dashed border-on-primary-fixed-variant/40 rounded-sm p-8 flex flex-col items-center justify-center opacity-40">
+                        <i class="fas fa-tasks text-4xl mb-3"></i>
+                        <span class="text-[11px] font-bold uppercase tracking-widest text-center">Select line items from<br/>the purchase order</span>
+                    </div>
+                    
+                    <!-- Example Selected Items (hidden until added) -->
+                    <!--
                     <div class="bg-primary-container/50 border border-on-primary-fixed-variant/20 p-4 rounded-sm flex items-center justify-between group">
                         <div class="flex gap-4 items-center">
                             <div class="w-8 h-8 flex items-center justify-center bg-tertiary-container text-tertiary-fixed-dim rounded-sm font-bold text-xs italic">#1</div>
                             <div>
-                                <div class="text-white text-xs font-bold uppercase tracking-tight">PO-93902 - H-Frame Beams</div>
-                                <div class="text-[10px] text-on-primary-container">24 Units • 120 lbs • Satin Finish</div>
+                                <div class="text-white text-xs font-bold uppercase tracking-tight">Line 01 - Extrusion Beam</div>
+                                <div class="text-[10px] text-on-primary-container">0 Units • 0 lbs • Clear Finish</div>
                             </div>
                         </div>
                         <button class="text-on-primary-container hover:text-error transition-colors">
                             <i class="fas fa-times-circle text-lg"></i>
                         </button>
                     </div>
-                    
-                    <!-- Selected Item 2 -->
-                    <div class="bg-primary-container/50 border border-on-primary-fixed-variant/20 p-4 rounded-sm flex items-center justify-between group">
-                        <div class="flex gap-4 items-center">
-                            <div class="w-8 h-8 flex items-center justify-center bg-tertiary-container text-tertiary-fixed-dim rounded-sm font-bold text-xs italic">#2</div>
-                            <div>
-                                <div class="text-white text-xs font-bold uppercase tracking-tight">PO-94001 - Corner Brackets</div>
-                                <div class="text-[10px] text-on-primary-container">64 Units • 45 lbs • Mirror Polish</div>
-                            </div>
-                        </div>
-                        <button class="text-on-primary-container hover:text-error transition-colors">
-                            <i class="fas fa-times-circle text-lg"></i>
-                        </button>
-                    </div>
-                    
-                    <!-- Empty State / Instruction -->
-                    <div class="border-2 border-dashed border-on-primary-fixed-variant/40 rounded-sm p-6 flex flex-col items-center justify-center opacity-40">
-                        <i class="fas fa-tasks text-3xl mb-2"></i>
-                        <span class="text-[10px] font-bold uppercase tracking-widest text-center">Select more items from<br/>the available pool</span>
-                    </div>
+                    -->
                 </div>
             </div>
             
@@ -199,7 +160,5 @@
             <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-on-surface-variant">Last Batch Created: 2h ago</span>
         </div>
     </div>
-    <div class="text-[10px] font-bold uppercase tracking-[0.2em] text-on-surface-variant/50">
-        © 2024 Finishing Labs Systems
-    </div>
 </footer>
+</div>

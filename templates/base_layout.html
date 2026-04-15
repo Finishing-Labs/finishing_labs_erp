@@ -128,5 +128,53 @@
     
     {# Block for page-specific JavaScript #}
     {% block extra_scripts %}{% endblock %}
+    
+    {# Update sidebar active state on HTMX navigation #}
+    <script>
+        document.body.addEventListener('htmx:afterSwap', function(event) {
+            // Only update if this was a navigation swap to #content
+            if (event.detail.target.id === 'content') {
+                // Get current path from the URL
+                const currentPath = window.location.pathname;
+                
+                // Get all nav links
+                const navLinks = document.querySelectorAll('nav a');
+                
+                // Remove active classes from all links first
+                navLinks.forEach(link => {
+                    link.classList.remove('text-slate-950', 'border-r-4', 'border-slate-900', 'font-bold', 'bg-slate-200', 'scale-[0.98]');
+                    link.classList.add('text-slate-500', 'hover:text-slate-700', 'hover:bg-slate-200');
+                });
+                
+                // Find best matching link (longest path match wins)
+                let bestMatch = null;
+                let longestMatch = 0;
+                
+                navLinks.forEach(link => {
+                    const linkPath = new URL(link.href).pathname;
+                    
+                    // Check if current path starts with link path (for /orders, /orders/create matching)
+                    // Or exact match for root path
+                    if (linkPath === '/' && currentPath === '/') {
+                        if (linkPath.length > longestMatch) {
+                            bestMatch = link;
+                            longestMatch = linkPath.length;
+                        }
+                    } else if (linkPath !== '/' && currentPath.startsWith(linkPath)) {
+                        if (linkPath.length > longestMatch) {
+                            bestMatch = link;
+                            longestMatch = linkPath.length;
+                        }
+                    }
+                });
+                
+                // Apply active class to best match
+                if (bestMatch) {
+                    bestMatch.classList.remove('text-slate-500', 'hover:text-slate-700', 'hover:bg-slate-200');
+                    bestMatch.classList.add('text-slate-950', 'border-r-4', 'border-slate-900', 'font-bold', 'bg-slate-200', 'scale-[0.98]');
+                }
+            }
+        });
+    </script>
 </body>
 </html>

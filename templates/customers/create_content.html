@@ -1,0 +1,175 @@
+<!-- Page Header Asymmetric Layout -->
+<div class="px-8 pb-12">
+<div class="flex justify-between items-end mb-8">
+    <div>
+        <h2 class="text-5xl font-bold tracking-tighter text-primary">New Customer</h2>
+        <p class="text-on-surface-variant mt-2 max-w-md">Add a new customer to the system. Maintain accurate contact and billing information for streamlined operations.</p>
+    </div>
+    <div class="flex gap-4">
+        <button class="flex items-center gap-2 px-6 py-2 text-primary font-bold border-b-2 border-tertiary-fixed-dim hover:bg-surface-container-low transition-colors">
+            <i class="fas fa-file-import text-sm"></i>
+            <span class="text-[11px] uppercase tracking-widest">Import</span>
+        </button>
+    </div>
+</div>
+
+<!-- Customer Information Section (Asymmetric Tonal Grid) -->
+<section class="grid grid-cols-12 gap-8 mb-8">
+    <div class="col-span-12 lg:col-span-8 bg-surface-container-low p-8 rounded-sm">
+        <h4 class="font-headline font-bold text-xl uppercase tracking-tighter mb-6">Company Information</h4>
+        <div class="space-y-6">
+            <div class="grid grid-cols-2 gap-6">
+                <div class="flex flex-col gap-2">
+                    <label class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Company Name</label>
+                    <input class="bg-transparent border-b-2 border-outline-variant py-2 text-primary font-semibold text-lg focus:bg-surface-container-high transition-all" placeholder="Enter company name" type="text"/>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Industry</label>
+                    <select class="bg-transparent border-b-2 border-outline-variant py-2 text-primary font-semibold text-lg focus:bg-surface-container-high transition-all">
+                        <option>Architectural</option>
+                        <option>Construction</option>
+                        <option>Manufacturing</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-6">
+                <div class="flex flex-col gap-2">
+                    <label class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Customer ID</label>
+                    <input class="bg-transparent border-b-2 border-outline-variant py-2 text-primary font-semibold focus:bg-surface-container-high transition-all" placeholder="Auto-generated" type="text" disabled/>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Account Status</label>
+                    <select class="bg-transparent border-b-2 border-outline-variant py-2 text-primary font-semibold focus:bg-surface-container-high transition-all">
+                        <option>Active</option>
+                        <option>Pending Approval</option>
+                        <option>Inactive</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Quick Summary / Metadata (Glassmorphism) -->
+    <div class="col-span-12 lg:col-span-4 bg-primary-container p-8 rounded-sm flex flex-col justify-center items-center text-white relative overflow-hidden">
+        <div class="z-10 text-center space-y-4">
+            <i class="fas fa-building text-white/20 text-6xl"></i>
+            <p class="text-white/40 text-sm font-bold uppercase tracking-widest">New Feature</p>
+        </div>
+        <div class="absolute -right-4 -bottom-4 opacity-10">
+            <i class="fas fa-building text-[120px]"></i>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Details Section -->
+<section class="grid grid-cols-12 gap-8 mb-8">
+    <div class="col-span-12 lg:col-span-6 bg-surface-container-low p-8 rounded-sm">
+        <h4 class="font-headline font-bold text-xl uppercase tracking-tighter mb-6">Primary Contact</h4>
+        <div class="space-y-4">
+            <div class="flex flex-col gap-2">
+                <label class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Contact Name</label>
+                <input class="bg-transparent border-b-2 border-outline-variant py-2 text-primary font-semibold focus:bg-surface-container-high transition-all" placeholder="Full name" type="text"/>
+            </div>
+            <div class="flex flex-col gap-2">
+                <label class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Email Address</label>
+                <input class="bg-transparent border-b-2 border-outline-variant py-2 text-primary font-semibold focus:bg-surface-container-high transition-all" placeholder="email@company.com" type="email"/>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="flex flex-col gap-2">
+                    <label class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Phone</label>
+                    <input class="bg-transparent border-b-2 border-outline-variant py-2 text-primary font-semibold focus:bg-surface-container-high transition-all" placeholder="(555) 123-4567" type="tel"/>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Extension</label>
+                    <input class="bg-transparent border-b-2 border-outline-variant py-2 text-primary font-semibold focus:bg-surface-container-high transition-all" placeholder="Ext." type="text"/>
+                </div>
+            </div>
+            <div class="flex flex-col gap-2">
+                <label class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Job Title</label>
+                <input class="bg-transparent border-b-2 border-outline-variant py-2 text-primary font-semibold focus:bg-surface-container-high transition-all" placeholder="Position" type="text"/>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-span-12 lg:col-span-6 bg-surface-container-low p-8 rounded-sm">
+        <h4 class="font-headline font-bold text-xl uppercase tracking-tighter mb-6">Billing Address</h4>
+        <div class="space-y-4">
+            <div class="flex flex-col gap-2">
+                <label class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Street Address</label>
+                <input class="bg-transparent border-b-2 border-outline-variant py-2 text-primary font-semibold focus:bg-surface-container-high transition-all" placeholder="Street address" type="text"/>
+            </div>
+            <div class="flex flex-col gap-2">
+                <label class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Address Line 2</label>
+                <input class="bg-transparent border-b-2 border-outline-variant py-2 text-primary font-semibold focus:bg-surface-container-high transition-all" placeholder="Suite, floor, etc." type="text"/>
+            </div>
+            <div class="grid grid-cols-3 gap-4">
+                <div class="flex flex-col gap-2">
+                    <label class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">City</label>
+                    <input class="bg-transparent border-b-2 border-outline-variant py-2 text-primary font-semibold focus:bg-surface-container-high transition-all" placeholder="City" type="text"/>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">State</label>
+                    <input class="bg-transparent border-b-2 border-outline-variant py-2 text-primary font-semibold focus:bg-surface-container-high transition-all" placeholder="State" type="text"/>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">ZIP</label>
+                    <input class="bg-transparent border-b-2 border-outline-variant py-2 text-primary font-semibold focus:bg-surface-container-high transition-all" placeholder="ZIP" type="text"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Payment Terms Section -->
+<section class="bg-surface-container-low rounded-sm p-8 mb-8">
+    <h4 class="font-headline font-bold text-xl uppercase tracking-tighter mb-6">Payment Terms</h4>
+    <div class="grid grid-cols-3 gap-8">
+        <div class="flex flex-col gap-2">
+            <label class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Payment Terms</label>
+            <select class="bg-transparent border-b-2 border-outline-variant py-2 text-primary font-semibold focus:bg-surface-container-high transition-all">
+                <option>Net 30</option>
+                <option>Net 60</option>
+                <option>Net 90</option>
+                <option>Due on Receipt</option>
+                <option>Custom</option>
+            </select>
+        </div>
+        <div class="flex flex-col gap-2">
+            <label class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Credit Limit</label>
+            <input class="bg-transparent border-b-2 border-outline-variant py-2 text-primary font-semibold focus:bg-surface-container-high transition-all" placeholder="$0.00" type="text"/>
+        </div>
+        <div class="flex flex-col gap-2">
+            <label class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Preferred Payment Method</label>
+            <select class="bg-transparent border-b-2 border-outline-variant py-2 text-primary font-semibold focus:bg-surface-container-high transition-all">
+                <option>Wire Transfer</option>
+                <option>Check</option>
+                <option>Credit Card</option>
+                <option>ACH</option>
+            </select>
+        </div>
+    </div>
+</section>
+
+<!-- Notes Section -->
+<section class="bg-surface-container-low rounded-sm p-8 mb-8">
+    <h4 class="font-headline font-bold text-xl uppercase tracking-tighter mb-6">Additional Notes</h4>
+    <div class="flex flex-col gap-2">
+        <label class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Internal Notes</label>
+        <textarea class="bg-transparent border-2 border-outline-variant p-4 rounded-sm text-primary font-semibold focus:bg-surface-container-high transition-all resize-none" rows="4" placeholder="Special requirements, preferences, etc."></textarea>
+    </div>
+</section>
+
+<!-- Action Buttons -->
+<div class="flex justify-end gap-4 mt-8">
+    <button class="px-8 py-4 bg-surface-container-low text-on-surface text-[11px] font-bold tracking-widest uppercase rounded-sm hover:bg-surface-container transition-colors">
+        Cancel
+    </button>
+    <button class="px-8 py-4 bg-tertiary-fixed text-on-tertiary-fixed text-[11px] font-bold tracking-widest uppercase rounded-sm hover:bg-tertiary-fixed-dim transition-colors flex items-center gap-2">
+        <i class="fas fa-save"></i>
+        Create Customer
+    </button>
+</div>
+
+</div>
