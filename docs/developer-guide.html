@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Guide - Finishing Labs ERP</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Finishing Labs ERP</h1>
+            <p class="subtitle">Developer Guide</p>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <div class="container">
+            <a href="index.html">Home</a>
+            <a href="user-guide.html">User Guide</a>
+            <a href="developer-guide.html" class="active">Developer Guide</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <aside class="sidebar">
+            <h3>Contents</h3>
+            <ul>
+                <li><a href="#architecture">Architecture</a></li>
+                <li><a href="#setup">Setup Instructions</a></li>
+                <li><a href="#project-structure">Project Structure</a></li>
+                <li><a href="#database">Database Schema</a></li>
+                <li><a href="#controllers">Controllers</a></li>
+                <li><a href="#templates">Templates</a></li>
+                <li><a href="#htmx">HTMX Integration</a></li>
+                <li><a href="#extending">Extending the System</a></li>
+            </ul>
+        </aside>
+
+        <article class="content">
+            <section id="architecture">
+                <h2>System Architecture</h2>
+                <p>Finishing Labs ERP follows a classic MVC (Model-View-Controller) architecture pattern with modern enhancements.</p>
+                
+                <h3>Technology Stack</h3>
+                <ul>
+                    <li><strong>Backend Framework:</strong> Flask (Python)</li>
+                    <li><strong>Database:</strong> SQLAlchemy ORM with SQLite/PostgreSQL</li>
+                    <li><strong>Frontend:</strong> HTML5, CSS3, HTMX</li>
+                    <li><strong>Template Engine:</strong> Jinja2</li>
+                </ul>
+
+                <h3>Design Principles</h3>
+                <ul>
+                    <li><strong>Component-Based:</strong> Reusable template components (sidebar, topbar)</li>
+                    <li><strong>HTMX-First:</strong> Minimizes JavaScript, server-driven interactions</li>
+                    <li><strong>RESTful Routes:</strong> Clean URL structure and HTTP verb usage</li>
+                    <li><strong>Single Responsibility:</strong> Each controller manages one domain</li>
+                </ul>
+            </section>
+
+            <section id="setup">
+                <h2>Setup Instructions</h2>
+                
+                <h3>Prerequisites</h3>
+                <ul>
+                    <li>Python 3.8 or higher</li>
+                    <li>pip (Python package manager)</li>
+                    <li>Virtual environment tool (venv or virtualenv)</li>
+                </ul>
+
+                <h3>Installation</h3>
+                <div class="code-block">
+                    <pre><code># Clone the repository
+git clone &lt;repository-url&gt;
+cd finishing_labs_erp
+
+# Create virtual environment
+python -m venv venv
+
+# Activate virtual environment
+# Windows:
+.\venv\Scripts\activate
+# Mac/Linux:
+source venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Initialize the database
+flask db upgrade
+
+# Run the application
+python app.py
+# or use the start script:
+.\start.ps1</code></pre>
+                </div>
+
+                <h3>Configuration</h3>
+                <p>Configuration is managed in <code>config.py</code>. Key settings include:</p>
+                <ul>
+                    <li><strong>SECRET_KEY:</strong> Session encryption key</li>
+                    <li><strong>SQLALCHEMY_DATABASE_URI:</strong> Database connection string</li>
+                    <li><strong>DEBUG:</strong> Development mode toggle</li>
+                </ul>
+            </section>
+
+            <section id="project-structure">
+                <h2>Project Structure</h2>
+                <div class="code-block">
+                    <pre><code>finishing_labs_erp/
+├── app.py                    # Application entry point
+├── config.py                 # Configuration settings
+├── requirements.txt          # Python dependencies
+├── start.ps1                 # Windows startup script
+├── controllers/              # Business logic controllers
+│   ├── __init__.py
+│   ├── customers.py          # Customer management
+│   ├── dashboard.py          # Dashboard metrics
+│   ├── orders.py             # Order processing
+│   ├── packing_slips.py      # Packing slip generation
+│   └── production.py         # Production tracking
+├── models/                   # Database models
+│   └── __init__.py
+├── templates/                # Jinja2 templates
+│   ├── base_layout.html      # Base template
+│   ├── components/           # Reusable components
+│   │   ├── sidebar.html
+│   │   └── topbar.html
+│   ├── customers/            # Customer views
+│   ├── dashboard/            # Dashboard views
+│   ├── orders/               # Order views
+│   ├── packing_slips/        # Packing slip views
+│   └── production/           # Production views
+└── static/                   # Static assets
+    └── css/
+        └── style.css         # Application styles</code></pre>
+                </div>
+            </section>
+
+            <section id="database">
+                <h2>Database Schema</h2>
+                <p>The system uses SQLAlchemy ORM for database interactions. Models are defined in the <code>models/</code> directory.</p>
+                
+                <h3>Core Entities</h3>
+                <ul>
+                    <li><strong>Customer:</strong> Stores customer information and contact details</li>
+                    <li><strong>Order:</strong> Represents customer orders with items and status</li>
+                    <li><strong>PackingSlip:</strong> Generated shipping documentation</li>
+                    <li><strong>ProductionItem:</strong> Tracks items through production stages</li>
+                </ul>
+
+                <h3>Relationships</h3>
+                <ul>
+                    <li>Customer → Orders (one-to-many)</li>
+                    <li>Order → PackingSlips (one-to-many)</li>
+                    <li>Order → ProductionItems (one-to-many)</li>
+                </ul>
+            </section>
+
+            <section id="controllers">
+                <h2>Controllers</h2>
+                <p>Controllers handle HTTP requests and coordinate between models and views.</p>
+
+                <h3>Controller Structure</h3>
+                <p>Each controller is a Flask Blueprint registered in <code>app.py</code>:</p>
+                <div class="code-block">
+                    <pre><code>from flask import Blueprint, render_template, request
+
+controller_name = Blueprint('name', __name__)
+
+@controller_name.route('/path')
+def index():
+    # Handle request
+    return render_template('template.html')</code></pre>
+                </div>
+
+                <h3>Available Controllers</h3>
+                <ul>
+                    <li><strong>dashboard.py:</strong> Dashboard and analytics</li>
+                    <li><strong>customers.py:</strong> CRUD operations for customers</li>
+                    <li><strong>orders.py:</strong> Order creation and management</li>
+                    <li><strong>packing_slips.py:</strong> Packing slip generation</li>
+                    <li><strong>production.py:</strong> Production workflow and builder</li>
+                </ul>
+            </section>
+
+            <section id="templates">
+                <h2>Template System</h2>
+                
+                <h3>Template Architecture</h3>
+                <p>Templates follow a hierarchical inheritance pattern:</p>
+                <ul>
+                    <li><strong>base_layout.html:</strong> Root template with HTML structure</li>
+                    <li><strong>Module index.html:</strong> Full page with sidebar/topbar</li>
+                    <li><strong>Module content.html:</strong> HTMX-targeted content only</li>
+                </ul>
+
+                <h3>Component Pattern</h3>
+                <p>Shared UI components (sidebar, topbar) are extracted into <code>templates/components/</code> for reusability.</p>
+
+                <div class="code-block">
+                    <pre><code>{% extends "base_layout.html" %}
+
+{% block content %}
+    {% include "components/sidebar.html" %}
+    {% include "components/topbar.html" %}
+    
+    &lt;main&gt;
+        {# Page content #}
+    &lt;/main&gt;
+{% endblock %}</code></pre>
+                </div>
+            </section>
+
+            <section id="htmx">
+                <h2>HTMX Integration</h2>
+                <p>HTMX enables dynamic interactions without writing JavaScript. See <code>HTMX_REFERENCE.md</code> for details.</p>
+
+                <h3>Common Patterns</h3>
+                <ul>
+                    <li><strong>hx-get:</strong> Load content dynamically</li>
+                    <li><strong>hx-post:</strong> Submit forms via AJAX</li>
+                    <li><strong>hx-target:</strong> Specify where to insert response</li>
+                    <li><strong>hx-swap:</strong> Control how content is swapped</li>
+                </ul>
+
+                <h3>Example</h3>
+                <div class="code-block">
+                    <pre><code>&lt;button hx-get="/orders/new" 
+        hx-target="#content" 
+        hx-swap="innerHTML"&gt;
+    New Order
+&lt;/button&gt;</code></pre>
+                </div>
+            </section>
+
+            <section id="extending">
+                <h2>Extending the System</h2>
+                
+                <h3>Adding a New Module</h3>
+                <ol>
+                    <li>Create a new controller in <code>controllers/module_name.py</code></li>
+                    <li>Define routes using Flask Blueprint</li>
+                    <li>Create model(s) in <code>models/</code> if needed</li>
+                    <li>Add templates in <code>templates/module_name/</code></li>
+                    <li>Register the blueprint in <code>app.py</code></li>
+                    <li>Add navigation link to sidebar component</li>
+                </ol>
+
+                <h3>Best Practices</h3>
+                <ul>
+                    <li>Follow the existing naming conventions</li>
+                    <li>Create both full page and content-only templates</li>
+                    <li>Use HTMX for dynamic interactions when possible</li>
+                    <li>Keep controllers thin, move business logic to models/services</li>
+                    <li>Write database migrations for schema changes</li>
+                    <li>Update documentation when adding features</li>
+                </ul>
+
+                <h3>API Endpoints</h3>
+                <p>When adding new endpoints, follow RESTful conventions:</p>
+                <ul>
+                    <li><code>GET /resource</code> - List all</li>
+                    <li><code>GET /resource/new</code> - New form</li>
+                    <li><code>POST /resource</code> - Create</li>
+                    <li><code>GET /resource/:id</code> - View one</li>
+                    <li><code>GET /resource/:id/edit</code> - Edit form</li>
+                    <li><code>PUT /resource/:id</code> - Update</li>
+                    <li><code>DELETE /resource/:id</code> - Delete</li>
+                </ul>
+            </section>
+
+            <section id="testing">
+                <h2>Testing</h2>
+                <p>Guidelines for testing the application:</p>
+                <ul>
+                    <li>Use pytest for unit and integration tests</li>
+                    <li>Test controllers with Flask test client</li>
+                    <li>Mock database interactions where appropriate</li>
+                    <li>Test HTMX endpoints return correct partial HTML</li>
+                </ul>
+            </section>
+
+            <section id="deployment">
+                <h2>Deployment</h2>
+                <p>Recommended deployment options:</p>
+                <ul>
+                    <li><strong>Production Server:</strong> Gunicorn or uWSGI</li>
+                    <li><strong>Reverse Proxy:</strong> Nginx or Apache</li>
+                    <li><strong>Database:</strong> PostgreSQL for production</li>
+                    <li><strong>Platforms:</strong> Heroku, Railway, DigitalOcean, AWS</li>
+                </ul>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Finishing Labs ERP. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

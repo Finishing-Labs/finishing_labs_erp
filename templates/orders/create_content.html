@@ -1,26 +1,26 @@
 <!-- Page Header Asymmetric Layout -->
-<div class="px-8 pb-12">
-<div class="flex justify-between items-end mb-8">
+<div class="page-container">
+<div class="page-header">
     <div>
-        <h2 class="text-5xl font-bold tracking-tighter text-primary">New Purchase Order</h2>
-        <p class="text-on-surface-variant mt-2 max-w-md">Initialize a new anodizing workflow. Ensure customer specifications match current tank chemistry requirements.</p>
+        <h2 class="page-title">New Purchase Order</h2>
+        <p class="page-subtitle">Initialize a new anodizing workflow. Ensure customer specifications match current tank chemistry requirements.</p>
     </div>
     <div class="flex gap-4">
-        <button class="flex items-center gap-2 px-6 py-2 text-primary font-bold border-b-2 border-tertiary-fixed-dim hover:bg-surface-container-low transition-colors">
+        <button class="btn-import">
             <i class="fas fa-file-upload text-sm"></i>
-            <span class="text-[11px] uppercase tracking-widest">Import PDF</span>
+            <span>Import PDF</span>
         </button>
     </div>
 </div>
 
 <!-- PO Header Section (Asymmetric Tonal Grid) -->
-<section class="grid grid-cols-12 gap-8 mb-8">
-    <div class="col-span-12 lg:col-span-8 bg-surface-container-low p-8 rounded-sm">
-        <div class="grid grid-cols-3 gap-8">
+<section class="section-grid mb-8">
+    <div class="col-span-12 lg:col-span-8 card">
+        <div class="form-row-3">
             <!-- Customer Dropdown -->
-            <div class="flex flex-col gap-2">
-                <label class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Customer Entity</label>
-                <select class="bg-transparent border-b-2 border-outline-variant py-2 text-primary font-semibold text-lg focus:bg-surface-container-high transition-all">
+            <div class="form-group">
+                <label class="form-label">Customer Entity</label>
+                <select class="form-input-underline">
                     <option>Skyline Facades Ltd</option>
                     <option>Lumina Glazing Corp</option>
                     <option>Aeroform Components</option>
@@ -28,26 +28,23 @@
                 </select>
             </div>
             <!-- PO Number -->
-            <div class="flex flex-col gap-2">
-                <label class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">PO Reference Number</label>
-                <input class="bg-transparent border-b-2 border-outline-variant py-2 text-primary font-semibold text-lg focus:bg-surface-container-high transition-all" placeholder="PO-2024-001" type="text"/>
+            <div class="form-group">
+                <label class="form-label">PO Reference Number</label>
+                <input class="form-input-underline" placeholder="PO-2024-001" type="text"/>
             </div>
             <!-- Date Picker -->
-            <div class="flex flex-col gap-2">
-                <label class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Order Date</label>
-                <input class="bg-transparent border-b-2 border-outline-variant py-2 text-primary font-semibold text-lg focus:bg-surface-container-high transition-all" type="date" value="2024-01-15"/>
+            <div class="form-group">
+                <label class="form-label">Order Date</label>
+                <input class="form-input-underline" type="date" value="2024-01-15"/>
             </div>
         </div>
     </div>
     
     <!-- Quick Summary / Metadata (Glassmorphism) -->
-    <div class="col-span-12 lg:col-span-4 bg-primary-container p-8 rounded-sm flex flex-col justify-center items-center text-white relative overflow-hidden">
-        <div class="z-10 text-center space-y-4">
-            <i class="fas fa-cogs text-white/20 text-6xl"></i>
-            <p class="text-white/40 text-sm font-bold uppercase tracking-widest">New Feature</p>
-        </div>
-        <div class="absolute -right-4 -bottom-4 opacity-10">
-            <i class="fas fa-cogs text-[120px]"></i>
+    <div class="col-span-12 lg:col-span-4 card-placeholder">
+        <div class="card-placeholder-content">
+            <i class="card-placeholder-icon fas fa-cogs"></i>
+            <p class="card-placeholder-text">New Feature</p>
         </div>
     </div>
 </section>
@@ -55,9 +52,9 @@
 <!-- Line Items Entry (Industrial Technical Ledger Style) -->
 <section class="bg-surface-container-lowest shadow-sm rounded-sm overflow-hidden flex flex-col">
     <div class="flex justify-between items-center px-8 py-6 bg-surface-container-low border-b border-outline-variant/10">
-        <h4 class="font-headline font-bold text-xl uppercase tracking-tighter">Line Item Specifications</h4>
+        <h4 class="form-section-header mb-0">Line Item Specifications</h4>
         <div class="flex gap-4">
-            <button class="bg-secondary-container text-on-secondary-container px-4 py-2 text-[10px] uppercase tracking-widest font-black rounded-sm flex items-center gap-2 hover:opacity-80 transition-all">
+            <button class="btn-action">
                 <i class="fas fa-plus-circle text-sm"></i>
                 Bulk Add
             </button>
@@ -65,106 +62,106 @@
     </div>
     
     <div class="overflow-x-auto">
-        <table class="w-full text-left border-collapse">
+        <table class="data-table">
             <thead>
-                <tr class="bg-surface">
-                    <th class="px-8 py-4 text-[11px] uppercase tracking-widest font-bold text-on-surface-variant border-b border-outline-variant/10">#</th>
-                    <th class="px-4 py-4 text-[11px] uppercase tracking-widest font-bold text-on-surface-variant border-b border-outline-variant/10">Part Number</th>
-                    <th class="px-4 py-4 text-[11px] uppercase tracking-widest font-bold text-on-surface-variant border-b border-outline-variant/10">Qty (Units)</th>
-                    <th class="px-4 py-4 text-[11px] uppercase tracking-widest font-bold text-on-surface-variant border-b border-outline-variant/10">Anodizing Type</th>
-                    <th class="px-4 py-4 text-[11px] uppercase tracking-widest font-bold text-on-surface-variant border-b border-outline-variant/10">Color Code</th>
-                    <th class="px-4 py-4 text-[11px] uppercase tracking-widest font-bold text-on-surface-variant border-b border-outline-variant/10">Notes</th>
-                    <th class="px-8 py-4 text-[11px] uppercase tracking-widest font-bold text-on-surface-variant border-b border-outline-variant/10"></th>
+                <tr>
+                    <th>#</th>
+                    <th>Part Number</th>
+                    <th>Qty (Units)</th>
+                    <th>Anodizing Type</th>
+                    <th>Color Code</th>
+                    <th>Notes</th>
+                    <th></th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-outline-variant/5">
+            <tbody>
                 <!-- Row 1 -->
-                <tr class="group hover:bg-surface-container-low transition-colors">
-                    <td class="px-8 py-5 text-sm font-headline font-bold text-outline">01</td>
-                    <td class="px-4 py-3">
-                        <input class="w-full bg-transparent border-none p-0 focus:ring-0 text-sm font-semibold text-primary" type="text" value="AL-EXT-4022"/>
+                <tr>
+                    <td class="row-number">01</td>
+                    <td>
+                        <input type="text" value="AL-EXT-4022"/>
                     </td>
-                    <td class="px-4 py-3">
-                        <input class="w-20 bg-transparent border-none p-0 focus:ring-0 text-sm font-semibold text-primary" type="number" value="150"/>
+                    <td>
+                        <input class="w-20" type="number" value="150"/>
                     </td>
-                    <td class="px-4 py-3">
-                        <select class="w-full bg-transparent border-none p-0 focus:ring-0 text-sm font-semibold text-primary">
+                    <td>
+                        <select>
                             <option>Type II - Clear</option>
                             <option>Type III - Hardcoat</option>
                             <option>Type I - Chromic</option>
                         </select>
                     </td>
-                    <td class="px-4 py-3">
+                    <td>
                         <div class="flex items-center gap-2">
                             <div class="w-4 h-4 rounded-full bg-slate-400"></div>
-                            <input class="w-full bg-transparent border-none p-0 focus:ring-0 text-sm font-semibold text-primary" type="text" value="Satin Silver"/>
+                            <input type="text" value="Satin Silver"/>
                         </div>
                     </td>
-                    <td class="px-4 py-3">
-                        <input class="w-full bg-transparent border-none p-0 focus:ring-0 text-xs text-on-surface-variant italic" placeholder="Add specific sealer requirements..." type="text"/>
+                    <td>
+                        <input class="text-xs text-on-surface-variant italic" placeholder="Add specific sealer requirements..." type="text"/>
                     </td>
-                    <td class="px-8 py-3 text-right">
-                        <button class="text-error opacity-0 group-hover:opacity-100 transition-opacity">
+                    <td class="text-right">
+                        <button class="delete-btn">
                             <i class="fas fa-trash-alt"></i>
                         </button>
                     </td>
                 </tr>
                 
                 <!-- Row 2 -->
-                <tr class="group hover:bg-surface-container-low transition-colors">
-                    <td class="px-8 py-5 text-sm font-headline font-bold text-outline">02</td>
-                    <td class="px-4 py-3">
-                        <input class="w-full bg-transparent border-none p-0 focus:ring-0 text-sm font-semibold text-primary" type="text" value="BR-PLT-990"/>
+                <tr>
+                    <td class="row-number">02</td>
+                    <td>
+                        <input type="text" value="BR-PLT-990"/>
                     </td>
-                    <td class="px-4 py-3">
-                        <input class="w-20 bg-transparent border-none p-0 focus:ring-0 text-sm font-semibold text-primary" type="number" value="45"/>
+                    <td>
+                        <input class="w-20" type="number" value="45"/>
                     </td>
-                    <td class="px-4 py-3">
-                        <select class="w-full bg-transparent border-none p-0 focus:ring-0 text-sm font-semibold text-primary">
+                    <td>
+                        <select>
                             <option>Type III - Hardcoat</option>
                             <option>Type II - Clear</option>
                         </select>
                     </td>
-                    <td class="px-4 py-3">
+                    <td>
                         <div class="flex items-center gap-2">
                             <div class="w-4 h-4 rounded-full bg-slate-900"></div>
-                            <input class="w-full bg-transparent border-none p-0 focus:ring-0 text-sm font-semibold text-primary" type="text" value="Obsidian Black"/>
+                            <input type="text" value="Obsidian Black"/>
                         </div>
                     </td>
-                    <td class="px-4 py-3">
-                        <input class="w-full bg-transparent border-none p-0 focus:ring-0 text-xs text-on-surface-variant italic" type="text" value="Double-dip dye required"/>
+                    <td>
+                        <input class="text-xs text-on-surface-variant italic" type="text" value="Double-dip dye required"/>
                     </td>
-                    <td class="px-8 py-3 text-right">
-                        <button class="text-error opacity-0 group-hover:opacity-100 transition-opacity">
+                    <td class="text-right">
+                        <button class="delete-btn">
                             <i class="fas fa-trash-alt"></i>
                         </button>
                     </td>
                 </tr>
                 
                 <!-- Active Entry Row -->
-                <tr class="bg-tertiary-container/5 border-l-4 border-tertiary-fixed-dim">
-                    <td class="px-8 py-5 text-sm font-headline font-bold text-tertiary-fixed-dim">03</td>
-                    <td class="px-4 py-3">
-                        <input autofocus class="w-full bg-transparent border-none p-0 focus:ring-0 text-sm font-semibold text-primary placeholder:opacity-30" placeholder="Type Part #..." type="text"/>
+                <tr class="active-row">
+                    <td class="row-number">03</td>
+                    <td>
+                        <input autofocus placeholder="Type Part #..." type="text"/>
                     </td>
-                    <td class="px-4 py-3">
-                        <input class="w-20 bg-transparent border-none p-0 focus:ring-0 text-sm font-semibold text-primary placeholder:opacity-30" placeholder="0" type="number"/>
+                    <td>
+                        <input class="w-20" placeholder="0" type="number"/>
                     </td>
-                    <td class="px-4 py-3">
-                        <select class="w-full bg-transparent border-none p-0 focus:ring-0 text-sm font-semibold text-on-surface-variant/50">
+                    <td>
+                        <select class="text-on-surface-variant/50">
                             <option>Select Type...</option>
                             <option>Type I</option>
                             <option>Type II</option>
                             <option>Type III</option>
                         </select>
                     </td>
-                    <td class="px-4 py-3">
-                        <input class="w-full bg-transparent border-none p-0 focus:ring-0 text-sm font-semibold text-primary placeholder:opacity-30" placeholder="RAL Code..." type="text"/>
+                    <td>
+                        <input placeholder="RAL Code..." type="text"/>
                     </td>
-                    <td class="px-4 py-3">
-                        <input class="w-full bg-transparent border-none p-0 focus:ring-0 text-xs text-on-surface-variant italic placeholder:opacity-30" placeholder="Notes..." type="text"/>
+                    <td>
+                        <input class="text-xs italic" placeholder="Notes..." type="text"/>
                     </td>
-                    <td class="px-8 py-3 text-right">
+                    <td class="text-right">
                         <span class="text-[10px] font-bold text-tertiary-fixed-dim uppercase">Active</span>
                     </td>
                 </tr>
@@ -173,19 +170,19 @@
     </div>
     
     <!-- Footer of Table -->
-    <div class="px-8 py-4 bg-surface-container flex justify-between items-center">
-        <button class="text-[11px] font-bold uppercase tracking-widest text-primary flex items-center gap-2 hover:translate-x-1 transition-transform">
+    <div class="data-table-footer">
+        <div class="data-table-footer-action">
             <i class="fas fa-plus-circle text-sm"></i>
             Press [Enter] for new row
-        </button>
-        <div class="flex gap-8 text-[11px] uppercase tracking-widest font-bold">
-            <div class="flex flex-col items-end">
-                <span class="text-on-surface-variant text-[9px]">Total Units</span>
-                <span class="text-lg font-headline">0</span>
+        </div>
+        <div class="data-table-footer-stats">
+            <div class="data-table-stat">
+                <span class="data-table-stat-label">Total Units</span>
+                <span class="data-table-stat-value">0</span>
             </div>
-            <div class="flex flex-col items-end">
-                <span class="text-on-surface-variant text-[9px]">Line Items</span>
-                <span class="text-lg font-headline">0</span>
+            <div class="data-table-stat">
+                <span class="data-table-stat-label">Line Items</span>
+                <span class="data-table-stat-value">0</span>
             </div>
         </div>
     </div>
@@ -193,10 +190,10 @@
 
 <!-- Action Controls -->
 <div class="flex justify-end gap-6 pt-4">
-    <button class="px-8 py-3 text-[11px] font-bold uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors">
+    <button class="btn-secondary">
         Discard Draft
     </button>
-    <button class="px-10 py-3 bg-primary text-white text-[11px] font-black uppercase tracking-[0.2em] rounded-sm shadow-xl hover:shadow-primary/20 transition-all active:scale-[0.98]">
+    <button class="btn-primary-large">
         Generate New PO
     </button>
 </div>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Guide - Finishing Labs ERP</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Finishing Labs ERP</h1>
+            <p class="subtitle">User Guide</p>
+        </div>
+    </header>
+
+    <nav class="main-nav">
+        <div class="container">
+            <a href="index.html">Home</a>
+            <a href="user-guide.html" class="active">User Guide</a>
+            <a href="developer-guide.html">Developer Guide</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <aside class="sidebar">
+            <h3>Contents</h3>
+            <ul>
+                <li><a href="#getting-started">Getting Started</a></li>
+                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="#customers">Customer Management</a></li>
+                <li><a href="#orders">Order Management</a></li>
+                <li><a href="#packing-slips">Packing Slips</a></li>
+                <li><a href="#production">Production</a></li>
+            </ul>
+        </aside>
+
+        <article class="content">
+            <section id="getting-started">
+                <h2>Getting Started</h2>
+                <p>Welcome to Finishing Labs ERP! This guide will help you navigate and use all features of the system.</p>
+                
+                <h3>Logging In</h3>
+                <p>Access the system through your web browser at the URL provided by your administrator. Use your assigned credentials to log in.</p>
+                
+                <h3>Navigation</h3>
+                <p>The system uses a sidebar navigation menu to access different modules:</p>
+                <ul>
+                    <li><strong>Dashboard:</strong> Overview of key metrics and recent activity</li>
+                    <li><strong>Customers:</strong> Manage customer information</li>
+                    <li><strong>Orders:</strong> Create and track customer orders</li>
+                    <li><strong>Packing Slips:</strong> Generate shipping documentation</li>
+                    <li><strong>Production:</strong> Manage production workflow</li>
+                </ul>
+            </section>
+
+            <section id="dashboard">
+                <h2>Dashboard</h2>
+                <p>The dashboard provides a real-time overview of your business operations, including:</p>
+                <ul>
+                    <li>Total number of customers</li>
+                    <li>Active orders</li>
+                    <li>Recent activity feed</li>
+                    <li>Production status summary</li>
+                </ul>
+            </section>
+
+            <section id="customers">
+                <h2>Customer Management</h2>
+                
+                <h3>Viewing Customers</h3>
+                <p>Navigate to the Customers section to view a list of all customers in the system. Use the search and filter options to find specific customers.</p>
+                
+                <h3>Adding a New Customer</h3>
+                <ol>
+                    <li>Click the "New Customer" button</li>
+                    <li>Fill in the customer information form:
+                        <ul>
+                            <li>Company name</li>
+                            <li>Contact person</li>
+                            <li>Email and phone</li>
+                            <li>Billing and shipping addresses</li>
+                        </ul>
+                    </li>
+                    <li>Click "Save" to create the customer record</li>
+                </ol>
+                
+                <h3>Editing Customer Information</h3>
+                <p>Click on any customer in the list to view their details. Click "Edit" to update their information.</p>
+            </section>
+
+            <section id="orders">
+                <h2>Order Management</h2>
+                
+                <h3>Creating an Order</h3>
+                <ol>
+                    <li>Navigate to Orders and click "New Order"</li>
+                    <li>Select the customer from the dropdown</li>
+                    <li>Add order details:
+                        <ul>
+                            <li>Order date</li>
+                            <li>Due date</li>
+                            <li>Items and quantities</li>
+                            <li>Special instructions</li>
+                        </ul>
+                    </li>
+                    <li>Review and submit the order</li>
+                </ol>
+                
+                <h3>Tracking Orders</h3>
+                <p>View all orders in the Orders list. Orders are color-coded by status:</p>
+                <ul>
+                    <li><strong>Pending:</strong> Awaiting processing</li>
+                    <li><strong>In Production:</strong> Currently being manufactured</li>
+                    <li><strong>Ready to Ship:</strong> Completed and awaiting shipment</li>
+                    <li><strong>Shipped:</strong> Dispatched to customer</li>
+                    <li><strong>Completed:</strong> Delivered and closed</li>
+                </ul>
+            </section>
+
+            <section id="packing-slips">
+                <h2>Packing Slips</h2>
+                
+                <h3>Generating a Packing Slip</h3>
+                <ol>
+                    <li>Navigate to Packing Slips</li>
+                    <li>Click "Create Packing Slip"</li>
+                    <li>Select the order</li>
+                    <li>Review the automatically populated information</li>
+                    <li>Click "Generate" to create the packing slip</li>
+                    <li>Print or download the PDF</li>
+                </ol>
+            </section>
+
+            <section id="production">
+                <h2>Production Management</h2>
+                
+                <h3>Production Workflow</h3>
+                <p>The Production module helps track items through the manufacturing process.</p>
+                
+                <h3>Production Builder</h3>
+                <p>Use the Production Builder to:</p>
+                <ul>
+                    <li>View orders ready for production</li>
+                    <li>Assign items to production queues</li>
+                    <li>Update production status</li>
+                    <li>Mark items as completed</li>
+                </ul>
+                
+                <h3>Tracking Production Status</h3>
+                <p>Monitor the status of all items in production from the Production overview page. Filter by status, customer, or date range.</p>
+            </section>
+
+            <section id="tips">
+                <h2>Tips & Best Practices</h2>
+                <ul>
+                    <li>Always verify customer information before creating orders</li>
+                    <li>Update order status promptly to maintain accurate tracking</li>
+                    <li>Generate packing slips before shipping to ensure accuracy</li>
+                    <li>Use the dashboard regularly to monitor overall system health</li>
+                    <li>Keep notes in order comments for future reference</li>
+                </ul>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Finishing Labs ERP. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

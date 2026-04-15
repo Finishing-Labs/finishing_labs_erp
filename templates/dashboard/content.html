@@ -1,74 +1,68 @@
 {# Dashboard Content - For HTMX partial swaps #}
-<div class="px-8 pb-12">
+<div class="page-container">
     <!-- Dashboard Header -->
-    <header class="mb-10 flex justify-between items-end">
-        <div>
-            <h2 class="text-5xl font-bold tracking-tighter text-primary">Operations Overview</h2>
-            <p class="text-on-surface-variant font-medium">This page is meant to show an overview of the current operations. 
+    <header class="page-header mb-10">
+        <div class="page-header-content">
+            <h2 class="page-title">Operations Overview</h2>
+            <p class="page-subtitle">This page is meant to show an overview of the current operations. 
                 <br> A lot is blank rightnow becasue a lot of room here will be used for later featurs involving status tracking
             </p>
         </div>
-        <div class="flex gap-2">
-            <div class="bg-surface-container-low px-4 py-2 rounded-sm border-b-2 border-primary">
-           
-                <i class="fas fa-industry text-white/20 text-4xl"></i>
-                <p class="text-black/40 text-sm font-bold uppercase tracking-widest">Later Feature</p>
-        
-            </div>
+        <div class="card-placeholder p-4">
+            <i class="card-placeholder-icon fas fa-industry"></i>
+            <p class="card-placeholder-text">Later Feature</p>
         </div>
     </header>
     
     <!-- Metrics Grid (Asymmetric Bento) -->
-    <div class="grid grid-cols-12 gap-6 mb-10">
+    <div class="metrics-grid">
         <!-- Major Metric -->
-        <div class="col-span-12 lg:col-span-4 bg-primary text-white p-8 flex flex-col justify-between relative overflow-hidden group">
-            <div class="relative z-10">
-                <span class="text-primary-fixed uppercase text-[11px] font-bold tracking-[0.2em] mb-4 block">Current Throughput</span>
-                <div class="text-7xl font-black font-headline">0</div>
-                <p class="text-primary-fixed-dim text-sm mt-4 font-medium italic opacity-80">WOs in Production Stage</p>
+        <div class="col-span-12 lg:col-span-4 metric-card">
+            <div>
+                <span class="metric-card-label">Current Throughput</span>
+                <div class="metric-card-value">0</div>
+                <p class="metric-card-description">WOs in Production Stage</p>
             </div>
-            <div class="mt-8 flex gap-4 relative z-10">
-                <div class="flex-1 bg-white/10 p-4 backdrop-blur-md">
-                    <span class="block text-[10px] uppercase font-bold text-primary-fixed mb-1">In Queue</span>
-                    <span class="text-xl font-bold">0</span>
+            <div class="metric-card-split">
+                <div class="metric-card-split-item">
+                    <span class="metric-card-split-label">In Queue</span>
+                    <span class="metric-card-split-value">0</span>
                 </div>
-                <div class="flex-1 bg-white/10 p-4 backdrop-blur-md">
-                    <span class="block text-[10px] uppercase font-bold text-primary-fixed mb-1">In Progress</span>
-                    <span class="text-xl font-bold">0</span>
+                <div class="metric-card-split-item">
+                    <span class="metric-card-split-label">In Progress</span>
+                    <span class="metric-card-split-value">0</span>
                 </div>
             </div>
-            <!-- Abstract industrial texture bg -->
-            <div class="absolute -right-4 -bottom-4 opacity-10 group-hover:scale-110 transition-transform duration-700">
-                <i class="fas fa-industry text-[160px]"></i>
+            <div class="metric-card-bg-icon">
+                <i class="fas fa-industry"></i>
             </div>
         </div>
         
         <!-- Active POs Card -->
-        <div class="col-span-12 md:col-span-6 lg:col-span-4 bg-surface-container-lowest p-8 flex flex-col justify-between">
+        <div class="col-span-12 md:col-span-6 lg:col-span-4 card flex flex-col justify-between">
             <div>
                 <div class="flex justify-between items-start mb-6">
-                    <span class="text-on-surface-variant uppercase text-[11px] font-bold tracking-widest">Active POs</span>
+                    <span class="metric-card-label text-on-surface-variant">Active POs</span>
                     <i class="fas fa-receipt text-primary"></i>
                 </div>
                 <div class="text-5xl font-black text-on-surface">0</div>
             </div>
-            <!-- Later Feature Placeholder -->
-            <div class="mt-8 bg-black p-4 flex items-center justify-center">
-                <p class="text-white/40 text-xs font-bold uppercase tracking-widest">Later Feature</p>
+            <div class="mt-8 card-placeholder p-4">
+                <p class="card-placeholder-text">Later Feature</p>
             </div>
         </div>
         
         <!-- Pending Shipments - Later Feature -->
-        <div class="col-span-12 md:col-span-6 lg:col-span-4 bg-black p-8 flex items-center justify-center">
-            <div class="text-center space-y-4">
-                <i class="fas fa-industry text-white/20 text-4xl"></i>
-                <p class="text-white/40 text-sm font-bold uppercase tracking-widest">Later Feature</p>
+        <div class="col-span-12 md:col-span-6 lg:col-span-4 card-placeholder">
+            <div class="card-placeholder-content">
+                <i class="card-placeholder-icon fas fa-industry"></i>
+                <p class="card-placeholder-text">Later Feature</p>
             </div>
         </div>
     </div>
     
     <!-- Section Grid -->
-    <div class="grid grid-cols-12 gap-8 items-start">
+    <div class="section-grid items-start">
         <!-- Shop Floor Status (Production View) - OUT OF SCOPE -->
         <!-- 
             FEATURE: Real-time Production Line Monitoring
@@ -81,18 +75,18 @@
             Current scope focuses on PO entry, work order batching, and ledger tracking.
             Real-time tank monitoring will be Phase 2.
         -->
-        <div class="col-span-12 lg:col-span-8 bg-black p-8 flex items-center justify-center" style="min-height: 400px;">
-            <div class="text-center space-y-4">
-                <i class="fas fa-industry text-white/20 text-6xl"></i>
-                <p class="text-white/40 text-sm font-bold uppercase tracking-widest">Later Feature</p>
+        <div class="col-span-12 lg:col-span-8 card-placeholder" style="min-height: 400px;">
+            <div class="card-placeholder-content">
+                <i class="card-placeholder-icon fas fa-industry"></i>
+                <p class="card-placeholder-text">Later Feature</p>
             </div>
         </div>
         
         <!-- Recent Activity - Later Feature -->
-        <div class="col-span-12 lg:col-span-4 bg-black p-8 flex items-center justify-center" style="min-height: 400px;">
-            <div class="text-center space-y-4">
-                <i class="fas fa-industry text-white/20 text-6xl"></i>
-                <p class="text-white/40 text-sm font-bold uppercase tracking-widest">Later Feature</p>
+        <div class="col-span-12 lg:col-span-4 card-placeholder" style="min-height: 400px;">
+            <div class="card-placeholder-content">
+                <i class="card-placeholder-icon fas fa-industry"></i>
+                <p class="card-placeholder-text">Later Feature</p>
             </div>
         </div>
     </div>
@@ -109,13 +103,11 @@
         Current scope focuses on ledger management and basic tracking.
         Advanced analytics and visualization will be Phase 2.
     -->
-    <div class="mt-8 grid grid-cols-12">
-        <div class="col-span-12 bg-black p-0 flex flex-col md:flex-row overflow-hidden shadow-sm" style="min-height: 250px;">
-            <div class="flex-1 p-8 flex items-center justify-center">
-                <div class="text-center space-y-4">
-                <i class="fas fa-industry text-white/20 text-6xl"></i>
-                <p class="text-white/40 text-sm font-bold uppercase tracking-widest">Later Feature</p>
-                </div>
+    <div class="mt-8 section-grid">
+        <div class="col-span-12 card-placeholder md:flex-row overflow-hidden shadow-sm" style="min-height: 250px;">
+            <div class="card-placeholder-content p-8">
+                <i class="card-placeholder-icon fas fa-industry"></i>
+                <p class="card-placeholder-text">Later Feature</p>
             </div>
         </div>
     </div>

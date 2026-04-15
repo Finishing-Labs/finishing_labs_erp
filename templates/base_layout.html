@@ -7,9 +7,6 @@
     {# Page title - each template can override this #}
     <title>{% block title %}Anodizing ERP{% endblock %}</title>
     
-    {# Tailwind CSS from CDN - includes forms and container-queries plugins #}
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    
     {# HTMX - enables AJAX navigation without writing JavaScript #}
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
     
@@ -19,72 +16,8 @@
     {# Font Awesome Icons #}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     
-    {# Tailwind Configuration - Custom color palette for anodizing industry aesthetic #}
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        // Primary: Deep industrial blue-black
-                        "primary": "#001d2e",
-                        "primary-container": "#183244",
-                        "on-primary-container": "#819ab0",
-                        // Secondary: Metallic blue-gray
-                        "secondary": "#446180",
-                        "secondary-container": "#bcdafe",
-                        // Tertiary: Chemical green (anodizing bath reference)
-                        "tertiary": "#131e00",
-                        "tertiary-container": "#243500",
-                        "tertiary-fixed": "#c8f17a",
-                        "tertiary-fixed-dim": "#add461",
-                        "on-tertiary-fixed": "#131f00",
-                        // Status colors
-                        "error": "#ba1a1a",
-                        // Surface colors for layered UI
-                        "background": "#f6f9ff",
-                        "surface": "#f6f9ff",
-                        "surface-container": "#e0f0ff",
-                        "surface-container-low": "#ebf5ff",
-                        "surface-container-lowest": "#ffffff",
-                        "surface-container-highest": "#cbe6fd",
-                        // Text colors
-                        "on-surface": "#011e2f",
-                        "on-surface-variant": "#43474c",
-                        "outline-variant": "#c3c7cc"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.125rem",
-                        "lg": "0.25rem",
-                        "xl": "0.5rem"
-                    },
-                    "fontFamily": {
-                        "headline": ["Space Grotesk"],
-                        "body": ["Inter"]
-                    }
-                },
-            },
-        }
-    </script>
-    
-    {# Global styling rules #}
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        h1, h2, h3, .font-headline {
-            font-family: 'Space Grotesk', sans-serif;
-        }
-        /* Hide scrollbars when using .no-scrollbar class */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        /* HTMX loading indicator - shows during page transitions */
-        .htmx-swapping {
-            opacity: 0;
-            transition: opacity 200ms ease-out;
-        }
-    </style>
+    {# Custom CSS - Migrated from Tailwind for better readability #}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
     
     {# Block for additional page-specific styles or scripts #}
     {% block extra_head %}{% endblock %}
@@ -101,10 +34,10 @@
     
     {# 
         Main Content Area
-        - Offset by sidebar width (ml-64)
+        - Offset by sidebar width
         - Contains topbar and page content
     #}
-    <main class="flex-1 ml-64 bg-surface">
+    <main class="main-content">
         
         {# 
             Top Bar Component
@@ -118,7 +51,6 @@
             Content Container
             - This is where HTMX swaps content when navigating
             - id="content" is the target for hx-target="#content" in navigation links
-            - pt-16 offsets for fixed topbar
         #}
         <div id="content" class="pt-16">
             {# Each page template fills this block with its content #}
@@ -132,47 +64,28 @@
     {# Update sidebar active state on HTMX navigation #}
     <script>
         document.body.addEventListener('htmx:afterSwap', function(event) {
-            // Only update if this was a navigation swap to #content
             if (event.detail.target.id === 'content') {
-                // Get current path from the URL
-                const currentPath = window.location.pathname;
+                const path = window.location.pathname;
+                const links = document.querySelectorAll('.sidebar-nav .sidebar-link');
                 
-                // Get all nav links
-                const navLinks = document.querySelectorAll('nav a');
+                // Remove active class from all links
+                links.forEach(link => link.classList.remove('active'));
                 
-                // Remove active classes from all links first
-                navLinks.forEach(link => {
-                    link.classList.remove('text-slate-950', 'border-r-4', 'border-slate-900', 'font-bold', 'bg-slate-200', 'scale-[0.98]');
-                    link.classList.add('text-slate-500', 'hover:text-slate-700', 'hover:bg-slate-200');
-                });
-                
-                // Find best matching link (longest path match wins)
+                // Find best matching link (longest path wins)
                 let bestMatch = null;
-                let longestMatch = 0;
+                let longest = 0;
                 
-                navLinks.forEach(link => {
-                    const linkPath = new URL(link.href).pathname;
-                    
-                    // Check if current path starts with link path (for /orders, /orders/create matching)
-                    // Or exact match for root path
-                    if (linkPath === '/' && currentPath === '/') {
-                        if (linkPath.length > longestMatch) {
+                links.forEach(link => {
+                    const href = new URL(link.href).pathname;
+                    if ((href === '/' && path === '/') || (href !== '/' && path.startsWith(href))) {
+                        if (href.length > longest) {
                             bestMatch = link;
-                            longestMatch = linkPath.length;
-                        }
-                    } else if (linkPath !== '/' && currentPath.startsWith(linkPath)) {
-                        if (linkPath.length > longestMatch) {
-                            bestMatch = link;
-                            longestMatch = linkPath.length;
+                            longest = href.length;
                         }
                     }
                 });
                 
-                // Apply active class to best match
-                if (bestMatch) {
-                    bestMatch.classList.remove('text-slate-500', 'hover:text-slate-700', 'hover:bg-slate-200');
-                    bestMatch.classList.add('text-slate-950', 'border-r-4', 'border-slate-900', 'font-bold', 'bg-slate-200', 'scale-[0.98]');
-                }
+                if (bestMatch) bestMatch.classList.add('active');
             }
         });
     </script>
