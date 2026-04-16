@@ -5,7 +5,11 @@
         <h2 class="page-title">Create Packing Slip</h2>
         <p class="page-subtitle">Generate a packing slip for order fulfillment. Select items from work orders ready for shipment.</p>
     </div>
-    <div class="flex gap-4">
+    <div class="flex gap-4 items-center">
+        <label class="checkbox-label">
+            <input type="checkbox" class="checkbox-input" checked>
+            <span>Show Price</span>
+        </label>
         <button class="btn-preview">
             <i class="fas fa-print text-sm"></i>
             <span>Preview</span>
@@ -100,13 +104,15 @@
                     <th>Description</th>
                     <th>Qty Ordered</th>
                     <th>Qty Shipping</th>
+                    <th>Price Per Unit</th>
+                    <th>Total Price</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 <!-- Empty state -->
                 <tr>
-                    <td colspan="6" class="px-8 py-12">
+                    <td colspan="7" class="px-8 py-12">
                         <div class="empty-state">
                             <i class="empty-state-icon fas fa-box-open"></i>
                             <p class="empty-state-title">No items selected</p>

@@ -22,37 +22,32 @@
         </div>
     </nav>
 
-    <main class="container">
-        <section class="hero">
-            <h2>Welcome to the Finishing Labs ERP Documentation</h2>
-            <p>This documentation provides comprehensive information about the Finishing Labs ERP system for both users and developers.</p>
-        </section>
+    <main class="container main-content">
+
 
         <section class="cards">
             <div class="card">
                 <h3>📖 User Guide</h3>
-                <p>Learn how to use the system, manage customers, create orders, generate packing slips, and track production.</p>
+                <p>Learn how to use the system</p>
                 <a href="user-guide.html" class="btn">View User Guide</a>
             </div>
 
             <div class="card">
                 <h3>⚙️ Developer Guide</h3>
-                <p>Technical documentation including system architecture, database schema, API reference, and setup instructions.</p>
+                <p>Technical documentation including system architecture, database schema,  and setup instructions.</p>
                 <a href="developer-guide.html" class="btn">View Developer Guide</a>
             </div>
         </section>
 
         <section class="overview">
-            <h2>System Overview</h2>
-            <p>Finishing Labs ERP is a lightweight, web-based enterprise resource planning system designed specifically for finishing lab operations. Built with Flask and HTMX, it provides a modern, responsive interface for managing the complete workflow from customer orders to production.</p>
+            <h2>Finishing Labs ERP</h2>
             
             <h3>Key Features</h3>
             <ul>
-                <li><strong>Customer Management:</strong> Maintain customer profiles, contact information, and order history</li>
-                <li><strong>Order Processing:</strong> Create and track orders throughout the fulfillment lifecycle</li>
-                <li><strong>Packing Slips:</strong> Generate professional packing slips for shipping</li>
+                <li><strong>Customer Management:</strong> Customer profiles, contact information, and order history</li>
+                <li><strong>Order Processing:</strong> Track From PO to Delivery</li>
+                <li><strong>Packing Slips:</strong> Generate packing slips</li>
                 <li><strong>Production Management:</strong> Track production status and build orders efficiently</li>
-                <li><strong>Dashboard Analytics:</strong> Real-time visibility into business metrics</li>
             </ul>
 
             <h3>Technology Stack</h3>
@@ -63,12 +58,128 @@
                 <li><strong>Architecture:</strong> MVC pattern with component-based templates</li>
             </ul>
         </section>
+
+        <section class="phase-one">
+            <h2>Phase One</h2>
+            <p>Phase One is all about getting the core functionality up and running. We're building complete <strong>CRUD operations</strong> (Create, Read, Update, Delete) for all the main modules.</p>
+            
+            <h3>What's CRUD?</h3>
+            <p><strong>CRUD</strong> stands for <strong>Create, Read, Update, Delete</strong> — basically the four things you need to do with data:</p>
+            <ul>
+                <li><strong>Create:</strong> Add new stuff (like a new customer or order)</li>
+                <li><strong>Read:</strong> View what you've got (lists, details, etc.)</li>
+                <li><strong>Update:</strong> Edit existing records when things change</li>
+                <li><strong>Delete:</strong> Remove things you don't need anymore</li>
+            </ul>
+
+            <h3>What's Included?</h3>
+            <p>Phase One covers the essential modules you need to run your finishing lab:</p>
+            <ul>
+                <li><strong>Customers:</strong> Store all your customer info, contacts, and history</li>
+                <li><strong>Purchase Orders:</strong> Create and manage purchase orders</li>
+                <li><strong>Line Items:</strong> Manage individual items within each order</li>
+                <li><strong>Work Orders:</strong> Create and track production jobs</li>
+                <li><strong>Packing Slips:</strong> Generate packing slips</li>
+            </ul>
+
+            <p>Once Phase One is done, you'll have a system for tracking jobs. Future phases will add more advanced features</p>
+
+            <h3>Timeline & Estimates</h3>
+            <p>Here's how long each piece should take. These estimates are based on real development time — the foundation, views, and docs in current took about 5 hours.</p>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-duration">0 hours</div>
+                    <div class="timeline-content">
+                        <h4>Foundation & Infrastructure ✓</h4>
+                        <ul>
+                            <li>Database schema design for all core entities — COMPLETE</li>
+                            <li>Project structure and base templates setup — COMPLETE</li>
+                            <li>Authentication and routing framework — COMPLETE</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-duration">8-12 hours</div>
+                    <div class="timeline-content">
+                        <h4>Customer Management Module</h4>
+                        <ul>
+                            <li>Customer model and CRUD routes (2-3 hours)</li>
+                            <li>List view with search/filter (2-3 hours)</li>
+                            <li>Create and edit forms (2-3 hours)</li>
+                            <li>Detail view and delete functionality (2-3 hours)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-duration">15-20 hours</div>
+                    <div class="timeline-content">
+                        <h4>Purchase Orders & Line Items</h4>
+                        <ul>
+                            <li>PO and Line Item models with relationships (3-4 hours)</li>
+                            <li>PO list and detail views (3-4 hours)</li>
+                            <li>Create form with nested line items (5-7 hours)</li>
+                            <li>Dynamic line item addition/removal with HTMX (4-5 hours)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-duration">10-15 hours</div>
+                    <div class="timeline-content">
+                        <h4>Work Orders Module</h4>
+                        <ul>
+                            <li>Work Order model and CRUD backend (3-4 hours)</li>
+                            <li>List and tracking interface (3-4 hours)</li>
+                            <li>Production builder with item selection (4-7 hours)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-duration">8-12 hours</div>
+                    <div class="timeline-content">
+                        <h4>Packing Slips Module</h4>
+                        <ul>
+                            <li>Packing slip model and generation logic (3-4 hours)</li>
+                            <li>List, create, and edit views (3-5 hours)</li>
+                            <li>Print-ready formatting and preview (2-3 hours)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-duration">1-2 hours</div>
+                    <div class="timeline-content">
+                        <h4>Dashboard & Analytics</h4>
+                        <ul>
+                            <li>Dashboard layout with metric cards (1-2 hours)</li>
+                            <li>Quick action shortcuts and polish (1-2 hours)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-duration">3-6 hours</div>
+                    <div class="timeline-content">
+                        <h4>Testing & Quality Assurance</h4>
+                        <ul>
+                            <li>Manual testing of all CRUD operations (1-2 hours)</li>
+                            <li>Bug fixes and edge case handling (1-2 hours)</li>
+                            <li>UI/UX refinements and final polish (1-2 hours)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <p class="timeline-summary"><strong>Total Phase One: 45-60 hours</strong></p>
+        </section>
     </main>
 
     <footer>
-        <div class="container">
-            <p>&copy; 2026 Finishing Labs ERP. All rights reserved.</p>
-        </div>
+
     </footer>
 </body>
 </html>

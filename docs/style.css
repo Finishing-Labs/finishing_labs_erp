@@ -99,6 +99,13 @@ main.container {
     gap: 2rem;
 }
 
+/* Home page main content without sidebar */
+main.main-content {
+    display: block;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
 /* Sidebar Navigation */
 aside.sidebar {
     position: sticky;
@@ -213,21 +220,23 @@ article.content strong {
 /* Hero Section */
 .hero {
     text-align: center;
-    padding: 3rem 0;
-    margin-bottom: 2rem;
+    padding: 3rem 0 2.5rem;
+    margin-bottom: 2.5rem;
 }
 
 .hero h2 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
     color: var(--text-primary);
+    line-height: 1.2;
 }
 
 .hero p {
-    font-size: 1.25rem;
+    font-size: 1.15rem;
     color: var(--text-secondary);
     max-width: 700px;
     margin: 0 auto;
+    line-height: 1.6;
 }
 
 /* Cards */
@@ -235,7 +244,7 @@ article.content strong {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
-    margin: 2rem 0;
+    margin: 2.5rem 0 3rem;
 }
 
 .card {
@@ -249,6 +258,7 @@ article.content strong {
 .card:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transform: translateY(-2px);
+    border-color: var(--primary-color);
 }
 
 .card h3 {
@@ -260,6 +270,7 @@ article.content strong {
 .card p {
     color: var(--text-secondary);
     margin-bottom: 1.5rem;
+    line-height: 1.6;
 }
 
 /* Buttons */
@@ -289,22 +300,23 @@ article.content strong {
 
 .overview h2 {
     font-size: 2rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
     border-bottom: 2px solid var(--border);
-    padding-bottom: 0.5rem;
+    padding-bottom: 0.75rem;
 }
 
 .overview h3 {
     font-size: 1.5rem;
-    margin-top: 2rem;
+    margin-top: 2.5rem;
     margin-bottom: 1rem;
     color: var(--text-primary);
 }
 
 .overview p {
     color: var(--text-secondary);
-    margin-bottom: 1rem;
-    line-height: 1.7;
+    margin-bottom: 1.25rem;
+    line-height: 1.75;
+    font-size: 1rem;
 }
 
 .overview ul {
@@ -315,7 +327,7 @@ article.content strong {
 .overview li {
     margin-bottom: 0.75rem;
     color: var(--text-secondary);
-    line-height: 1.6;
+    line-height: 1.7;
 }
 
 /* Footer */
@@ -334,6 +346,10 @@ footer {
         grid-template-columns: 1fr;
     }
     
+    main.main-content {
+        padding: 0 1rem;
+    }
+    
     aside.sidebar {
         position: static;
         border-bottom: 1px solid var(--border);
@@ -346,7 +362,11 @@ footer {
     }
     
     .hero h2 {
-        font-size: 2rem;
+        font-size: 1.75rem;
+    }
+    
+    .hero p {
+        font-size: 1rem;
     }
     
     header h1 {
@@ -359,6 +379,10 @@ footer {
     
     .main-nav a {
         padding: 0.75rem 1rem;
+    }
+    
+    .phase-one {
+        padding: 1.5rem;
     }
 }
 
@@ -396,6 +420,177 @@ th, td {
     padding: 0.75rem;
     text-align: left;
     border-bottom: 1px solid var(--border);
+}
+
+/* Timeline Styling */
+.timeline {
+    position: relative;
+    padding: 2rem 0;
+    margin: 2rem 0;
+    max-width: 100%;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 150px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--primary-color), var(--primary-hover));
+}
+
+.timeline-item {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    margin-bottom: 2.5rem;
+    position: relative;
+    gap: 0;
+    align-items: start;
+}
+
+.timeline-item:last-child {
+    margin-bottom: 0;
+}
+
+.timeline-duration {
+    text-align: right;
+    padding-right: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    font-size: 1rem;
+    padding-top: 0.5rem;
+}
+
+.timeline-item::after {
+    content: '';
+    position: absolute;
+    left: 140px;
+    top: 12px;
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border: 4px solid var(--primary-color);
+    border-radius: 50%;
+    box-shadow: 0 0 0 5px rgba(37, 99, 235, 0.15);
+    z-index: 2;
+}
+
+.timeline-content {
+    background-color: white;
+    border: 1px solid var(--border);
+    margin-left: 40px;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+}
+
+.timeline-content:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    transform: translateX(6px);
+    border-color: var(--primary-color);
+}
+
+.timeline-content h4 {
+    font-size: 1.25rem;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.timeline-content ul {
+    margin: 0;
+    padding-left: 1.5rem;
+}
+
+.timeline-content li {
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.timeline-content li:last-child {
+    margin-bottom: 0;
+}
+
+.timeline-summary {
+    margin-top: 2rem;
+    padding: 1.25rem 1.5rem;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(29, 78, 216, 0.05));
+    border-left: 4px solid var(--primary-color);
+    border-radius: 4px;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-primary);
+}
+
+/* Phase One Section */
+.phase-one {
+    background-color: var(--surface);
+    padding: 2.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    margin-top: 3rem;
+}
+
+.phase-one h2 {
+    border-bottom: none;
+    margin-top: 0;
+}
+
+.phase-one h3 {
+    margin-top: 2.5rem;
+}
+
+.phase-one h3:first-of-type {
+    margin-top: 2rem;
+}
+
+.phase-one p {
+    line-height: 1.7;
+}
+
+.phase-one ul {
+    line-height: 1.7;
+}
+
+/* Responsive Timeline */
+@media (max-width: 768px) {
+    .timeline::before {
+        left: 24px;
+    }
+    
+    .timeline-item {
+        grid-template-columns: 1fr;
+        padding-left: 60px;
+        margin-bottom: 2rem;
+    }
+    
+    .timeline-item::after {
+        left: 15px;
+        top: 8px;
+        width: 18px;
+        height: 18px;
+        border-width: 3px;
+    }
+    
+    .timeline-duration {
+        text-align: left;
+        padding-right: 0;
+        padding-bottom: 0.75rem;
+        padding-left: 0;
+        font-size: 0.9rem;
+    }
+    
+    .timeline-content {
+        padding: 1.5rem;
+    }
+    
+    .timeline-content:hover {
+        transform: translateX(0);
+    }
 }
 
 th {
