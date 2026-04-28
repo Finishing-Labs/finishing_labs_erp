@@ -31,7 +31,9 @@ def create_app(config_class=Config):
     return app
 
 
+# Create application instance for Gunicorn
+app = create_app()
+
 if __name__ == '__main__':
-    app = create_app()
     # debug=True enables hot reload and detailed error pages
     app.run(debug=True, host='127.0.0.1', port=5000)
