@@ -122,76 +122,221 @@ python app.py
 ├── config.py                 # Configuration settings
 ├── requirements.txt          # Python dependencies
 ├── start.ps1                 # Windows startup script
-├── controllers/              # Business logic controllers
+├── controllers/              # HTTP routing (thin)
 │   ├── __init__.py
-│   ├── customers.py          # Customer management
-│   ├── dashboard.py          # Dashboard metrics
-│   ├── purchase_orders.py    # Purchase order processing
-│   ├── packing_slips.py      # Packing slip generation
-│   └── work_orders.py        # Work order/production tracking
-├── models/                   # Database models
-│   └── __init__.py
+│   ├── customers.py
+│   ├── dashboard.py
+│   ├── purchase_orders.py
+│   ├── packing_slips.py
+│   └── work_orders.py
+├── services/                 # Business logic + SQL (fat)
+│   ├── __init__.py
+│   └── customer_service.py   # Example service
+├── database/                 # Database utilities
+│   ├── __init__.py
+│   └── db.py                 # DB.query(), DB.execute(), etc.
 ├── templates/                # Jinja2 templates
-│   ├── base_layout.html      # Base template
-│   ├── components/           # Reusable components
+│   ├── base_layout.html
+│   ├── components/
 │   │   ├── sidebar.html
 │   │   └── topbar.html
-│   ├── customers/            # Customer views
-│   ├── dashboard/            # Dashboard views
-│   ├── purchase_orders/      # Purchase order views
-│   ├── packing_slips/        # Packing slip views
-│   └── work_orders/          # Work order/production views
+│   ├── customers/
+│   ├── dashboard/
+│   ├── purchase_orders/
+│   ├── packing_slips/
+│   └── work_orders/
 └── static/                   # Static assets
     └── css/
-        └── style.css         # Application styles</code></pre>
+        └── style.css</code></pre>
                 </div>
             </section>
 
             <section id="database">
-                <h2>Database Schema</h2>
-                <p>The system uses SQLAlchemy ORM for database interactions. Models are defined in the <code>models/</code> directory.</p>
+                <h2>Database</h2>
+                <p>The system uses <strong>PostgreSQL</strong> with <strong>raw SQL queries</strong> (no ORM). This provides full control over queries and optimal performance for ERP operations.</p>
+                
                 <img src="static/img/finishing_labs_db_p1.JPG" alt="Database Schema Diagram" class="schema-diagram">
-                <h3>Core Entities</h3>
+                
+                <h3>Core Tables</h3>
                 <ul>
-                    <li><strong>Customer:</strong> Stores customer information and contact details</li>
-                    <li><strong>Order:</strong> Represents customer orders with items and status</li>
-                    <li><strong>PackingSlip:</strong> Generated shipping documentation</li>
-                    <li><strong>ProductionItem:</strong> Tracks items through production stages</li>
+                    <li><strong>customers:</strong> Customer information and contacts</li>
+                    <li><strong>purchase_orders:</strong> Customer purchase orders</li>
+                    <li><strong>work_orders:</strong> Production tracking</li>
+                    <li><strong>packing_slips:</strong> Shipping documentation</li>
                 </ul>
 
-                <h3>Relationships</h3>
+                <h3>Database Connection</h3>
+                <p>Using <code>psycopg2</code> with simple utility layer:</p>
+                <div class="code-block">
+                    <pre><code># Environment variables
+DATABASE_URL=postgresql://user:pass@host:5432/dbname  # Production
+# OR
+DB_NAME=finishing_labs_erp     # Local development
+DB_USER=postgres
+DB_PASSWORD=postgres
+DB_HOST=localhost
+DB_PORT=5432</code></pre>
+                </div>
+
+                <h3>Query Examples</h3>
+                <div class="code-block">
+                    <pre><code># Simple query
+customers = DB.query("SELECT * FROM customers WHERE active = %s", [True])
+
+# Single row
+customer = DB.fetch_one("SELECT * FROM customers WHERE id = %s", [42])
+
+# Single value
+count = DB.fetch_value("SELECT COUNT(*) FROM customers")
+
+# Insert with ID
+customer_id = DB.execute_returning_id(
+    "INSERT INTO customers (name, email) VALUES (%s, %s) RETURNING id",
+    ['ABC Corp', 'abc@example.com']
+)
+
+# Transaction
+with DB.transaction():
+    order_id = DB.execute_returning_id("INSERT INTO orders ...")
+    DB.execute("INSERT INTO order_items ...")</code></pre>
+                </div>
+
+                <h3>Schema Management</h3>
+                <p>SQL migration files stored in <code>migrations/</code> folder:</p>
                 <ul>
-                    <li>Customer → Orders (one-to-many)</li>
-                    <li>Order → PackingSlips (one-to-many)</li>
-                    <li>Order → ProductionItems (one-to-many)</li>
+                    <li><code>001_initial_schema.sql</code> - Base tables</li>
+                    <li><code>002_add_customers.sql</code> - Customer fields</li>
+                    <li><code>003_add_indexes.sql</code> - Performance indexes</li>
                 </ul>
+                <p>Run migrations manually: <code>psql $DATABASE_URL &lt; migrations/003_add_indexes.sql</code></p>
             </section>
 
             <section id="controllers">
-                <h2>Controllers</h2>
-                <p>Controllers handle HTTP requests and coordinate between models and views.</p>
-
-                <h3>Controller Structure</h3>
-                <p>Each controller is a Flask Blueprint registered in <code>app.py</code>:</p>
+                <h2>Architecture: Service Layer Pattern</h2>
+                <p>This system uses the <strong>Service Layer Pattern</strong> for clean separation of concerns:</p>
+                
                 <div class="code-block">
-                    <pre><code>from flask import Blueprint, render_template, request
-
-controller_name = Blueprint('name', __name__)
-
-@controller_name.route('/path')
-def index():
-    # Handle request
-    return render_template('template.html')</code></pre>
+                    <pre><code>Templates → HTMX → Controllers → Services → Database → PostgreSQL
+ (Views)    (HTTP)   (Routing)   (Logic+SQL)   (Utils)     (Data)</code></pre>
                 </div>
 
-                <h3>Available Controllers</h3>
+                <h3>Layer Responsibilities</h3>
                 <ul>
-                    <li><strong>dashboard.py:</strong> Dashboard and analytics</li>
-                    <li><strong>customers.py:</strong> CRUD operations for customers</li>
-                    <li><strong>purchase_orders.py:</strong> Purchase order creation and management</li>
-                    <li><strong>packing_slips.py:</strong> Packing slip generation</li>
-                    <li><strong>work_orders.py:</strong> Work order workflow and production tracking</li>
+                    <li><strong>Templates:</strong> Display HTML/data, capture input, send HTMX requests</li>
+                    <li><strong>Controllers:</strong> Handle HTTP routing, delegate to services, return templates</li>
+                    <li><strong>Services:</strong> Business logic and SQL queries - keep controllers thin</li>
+                    <li><strong>Database:</strong> Raw SQL execution with psycopg2 (no ORM)</li>
                 </ul>
+
+                <h3>Controller Example (Thin)</h3>
+                <p>Controllers should be 10-20 lines: get request data, call service, return template:</p>
+                <div class="code-block">
+                    <pre><code>from flask import Blueprint, render_template, request
+from services import customer_service
+
+customers_bp = Blueprint('customers', __name__)
+
+@customers_bp.route('/')
+def index():
+    # Call service for data (no SQL here!)
+    customers = customer_service.get_all_customers()
+    
+    # Return appropriate template
+    if request.headers.get('HX-Request'):
+        return render_template('customers/content.html', customers=customers)
+    return render_template('customers/index.html', customers=customers)</code></pre>
+                </div>
+
+                <h3>Service Example (Fat)</h3>
+                <p>Services contain all SQL queries and business logic:</p>
+                <div class="code-block">
+                    <pre><code>from database.db import DB
+
+def get_all_customers():
+    sql = """
+        SELECT customer_id, company_name, contact_email, phone
+        FROM customers
+        WHERE active = %s
+        ORDER BY company_name
+    """
+    return DB.query(sql, [True])
+
+def create_customer(name, email, phone=None):
+    sql = """
+        INSERT INTO customers (company_name, contact_email, phone, created_at)
+        VALUES (%s, %s, %s, NOW())
+        RETURNING customer_id
+    """
+    return DB.execute_returning_id(sql, [name, email, phone])</code></pre>
+                </div>
+
+                <h3>Database Utility</h3>
+                <p>Simple, PHP-like interface for raw SQL execution:</p>
+                <div class="code-block">
+                    <pre><code>from database.db import DB
+
+# Fetch multiple rows
+customers = DB.query("SELECT * FROM customers WHERE active = %s", [True])
+
+# Fetch single row
+customer = DB.fetch_one("SELECT * FROM customers WHERE id = %s", [customer_id])
+
+# Execute INSERT/UPDATE/DELETE
+DB.execute("UPDATE customers SET active = %s WHERE id = %s", [False, customer_id])
+
+# Get generated ID
+customer_id = DB.execute_returning_id(
+    "INSERT INTO customers (name) VALUES (%s) RETURNING id", 
+    ['ABC Corp']
+)</code></pre>
+                </div>
+
+                <h3>Complete Request Flow Example</h3>
+                <p>When user creates a new customer:</p>
+                <div class="code-block">
+                    <pre><code>1. User clicks "New Customer"
+   → HTMX: GET /customers/create
+   
+2. Controller returns form:
+   return render_template('customers/create_content.html')
+   
+3. User fills form, clicks "Create"
+   → HTMX: POST /customers with form data
+   
+4. Controller validates and calls service:
+   name = request.form.get('company_name')
+   customer_id = customer_service.create_customer(name, email)
+   
+5. Service executes SQL:
+   sql = "INSERT INTO customers (...) VALUES (...) RETURNING id"
+   return DB.execute_returning_id(sql, [name, email])
+   
+6. Controller returns updated list:
+   customers = customer_service.get_all_customers()
+   return render_template('customers/content.html', customers=customers)
+   
+7. HTMX swaps content into page (no reload!)</code></pre>
+                </div>
+
+                <h3>Available Modules</h3>
+                <ul>
+                    <li><strong>dashboard:</strong> Dashboard and analytics</li>
+                    <li><strong>customers:</strong> Customer management</li>
+                    <li><strong>purchase_orders:</strong> Purchase order creation and tracking</li>
+                    <li><strong>work_orders:</strong> Work order workflow and production</li>
+                    <li><strong>packing_slips:</strong> Packing slip generation</li>
+                </ul>
+
+                <h3>Why This Pattern?</h3>
+                <ul>
+                    <li><strong>Clean separation:</strong> Each layer has one clear job</li>
+                    <li><strong>Testable:</strong> Business logic testable without HTTP</li>
+                    <li><strong>Reusable:</strong> Multiple controllers can use same service functions</li>
+                    <li><strong>Full SQL control:</strong> No ORM magic, write queries exactly as needed</li>
+                    <li><strong>Easy to understand:</strong> Clear data flow from user to database</li>
+                </ul>
+
+                <p>See <code>SERVICE_LAYER_PATTERN.md</code> for complete documentation and examples.</p>
             </section>
 
             <section id="templates">

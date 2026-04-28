@@ -15,11 +15,7 @@ customers_bp = Blueprint('customers', __name__)
 
 @customers_bp.route('/')
 def index():
-    """
-    Customers list
-    
-    Returns content partial for HTMX, full page for direct navigation
-    """
+    """List all customers"""
     if request.headers.get('HX-Request'):
         return render_template('customers/content.html', page_title='Customers')
     return render_template('customers/index.html', page_title='Customers')
@@ -27,11 +23,7 @@ def index():
 
 @customers_bp.route('/create')
 def create():
-    """
-    Create new customer
-    
-    Returns content partial for HTMX, full page for direct navigation
-    """
+    """Create new customer form"""
     if request.headers.get('HX-Request'):
         return render_template('customers/create_content.html', page_title='New Customer')
     return render_template('customers/create.html', page_title='New Customer')

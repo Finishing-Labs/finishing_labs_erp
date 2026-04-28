@@ -1,5 +1,5 @@
 """
-Configuration settings for Finishing Labs ERP
+Configuration for Finishing Labs ERP
 """
 import os
 from datetime import timedelta
@@ -7,21 +7,13 @@ from datetime import timedelta
 
 class Config:
     """Base configuration"""
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'dev-secret-key-change-in-production'
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'dev-key-change-in-production'
     
-    # Database
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'sqlite:///finishing_labs_erp.db'
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
-    
-    # Session
     PERMANENT_SESSION_LIFETIME = timedelta(hours=24)
     
-    # Upload folders
     UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), 'uploads')
-    MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16MB max file size
+    MAX_CONTENT_LENGTH = 16 * 1024 * 1024
     
-    # Pagination
     ITEMS_PER_PAGE = 20
 
 
@@ -40,4 +32,3 @@ class ProductionConfig(Config):
 class TestingConfig(Config):
     """Testing configuration"""
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///test.db'
