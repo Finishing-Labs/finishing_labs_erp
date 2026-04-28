@@ -26,91 +26,61 @@
         <aside class="sidebar">
             <h3>Contents</h3>
             <ul>
-                <li><a href="#architecture">Architecture</a></li>
-                <li><a href="#setup">Setup Instructions</a></li>
+                <li><a href="#architecture">Architecture Overview</a></li>
                 <li><a href="#project-structure">Project Structure</a></li>
-                <li><a href="#database">Database Schema</a></li>
-                <li><a href="#controllers">Controllers</a></li>
-                <li><a href="#templates">Templates</a></li>
-                <li><a href="#htmx">HTMX Integration</a></li>
-                <li><a href="#extending">Extending the System</a>
+                <li><a href="#mvc">MVC Pattern</a>
                     <ul style="margin-left: 15px; font-size: 0.9em;">
-                        <li><a href="#extending">Adding New Modules</a></li>
-                        <li><a href="#extending">Complete Feature Example</a></li>
-                        <li><a href="#extending">HTMX Patterns</a></li>
-                        <li><a href="#extending">Best Practices</a></li>
+                        <li><a href="#views">Views (Templates)</a></li>
+                        <li><a href="#controllers">Controllers</a></li>
+                        <li><a href="#services">Services</a></li>
                     </ul>
                 </li>
-                <li><a href="#testing">Testing</a></li>
-                <li><a href="#deployment">Deployment</a></li>
+                <li><a href="#database">Database</a></li>
+                <li><a href="#restful">RESTful Conventions</a></li>
+                <li><a href="#naming">Naming Conventions</a></li>
+                <li><a href="#htmx">HTMX Patterns</a></li>
+                <li><a href="#deployment">Deployment</a>
+                    <ul style="margin-left: 15px; font-size: 0.9em;">
+                        <li><a href="#deployment-initial">Initial Setup</a></li>
+                        <li><a href="#deployment-updates">Updating the App</a></li>
+                    </ul>
+                </li>
             </ul>
         </aside>
 
         <article class="content">
             <section id="architecture">
-                <h2>System Architecture</h2>
-                <p>Finishing Labs ERP follows a classic MVC (Model-View-Controller) architecture pattern with some enhancements.</p>
+                <h2>Architecture Overview</h2>
+                <p>Finishing Labs ERP is built with a <strong>Service Layer Pattern</strong> using Flask, PostgreSQL, and HTMX. The architecture prioritizes simplicity, maintainability, and raw SQL control.</p>
                 
                 <h3>Technology Stack</h3>
                 <ul>
-                    <li><strong>Backend Framework:</strong> Flask (Python)</li>
-                    <li><strong>Database:</strong> SQLAlchemy ORM with SQLite/PostgreSQL (may use raw SQL for complex queries)</li>
-                    <li><strong>Frontend:</strong> HTML5, CSS3, HTMX</li>
+                    <li><strong>Backend Framework:</strong> Flask 3.0.0 (Python)</li>
+                    <li><strong>Database:</strong> PostgreSQL with psycopg3</li>
+                    <li><strong>Frontend:</strong> HTML5, CSS3, HTMX (no JavaScript framework)</li>
                     <li><strong>Template Engine:</strong> Jinja2</li>
                 </ul>
 
-                <h3>Design Principles</h3>
-                <ul>
-                    <li><strong>Component-Based:</strong> Reusable template components (sidebar, topbar)</li>
-                    <li><strong>HTMX-First:</strong> Minimizes JavaScript, server-driven interactions</li>
-                    <li><strong>RESTful Routes:</strong> Clean URL structure and HTTP verb usage</li>
-                    <li><strong>Single Responsibility:</strong> Each controller manages one domain</li>
-                </ul>
-            </section>
-
-            <section id="setup">
-                <h2>Setup Instructions</h2>
-                
-                <h3>Prerequisites</h3>
-                <ul>
-                    <li>Python 3.8 or higher</li>
-                    <li>pip (Python package manager)</li>
-                    <li>Virtual environment tool (venv or virtualenv)</li>
-                </ul>
-
-                <h3>Installation</h3>
+                <h3>Request Flow</h3>
                 <div class="code-block">
-                    <pre><code># Clone the repository
-git clone &lt;repository-url&gt;
-cd finishing_labs_erp
-
-# Create virtual environment
-python -m venv venv
-
-# Activate virtual environment
-# Windows:
-.\venv\Scripts\activate
-# Mac/Linux:
-source venv/bin/activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Initialize the database
-flask db upgrade
-
-# Run the application
-python app.py
-# or use the start script:
-.\start.ps1</code></pre>
+                    <pre><code>User Interaction (HTML/HTMX)
+        ↓
+Controller (HTTP routing, thin)
+        ↓
+Service (Business logic + SQL, fat)
+        ↓
+Database Utility (psycopg3 connection)
+        ↓
+PostgreSQL Database</code></pre>
                 </div>
 
-                <h3>Configuration</h3>
-                <p>Configuration is managed in <code>config.py</code>. Key settings include:</p>
+                <h3>Core Principles</h3>
                 <ul>
-                    <li><strong>SECRET_KEY:</strong> Session encryption key</li>
-                    <li><strong>SQLALCHEMY_DATABASE_URI:</strong> Database connection string</li>
-                    <li><strong>DEBUG:</strong> Development mode toggle</li>
+                    <li><strong>Raw SQL:</strong> No ORM - full control over database queries</li>
+                    <li><strong>Service Layer:</strong> Business logic separated from HTTP routing</li>
+                    <li><strong>HTMX-First:</strong> Dynamic interactions without JavaScript</li>
+                    <li><strong>RESTful Routes:</strong> Consistent URL patterns and HTTP verbs</li>
+                    <li><strong>Component-Based Templates:</strong> Reusable UI components</li>
                 </ul>
             </section>
 
@@ -121,37 +91,876 @@ python app.py
 ├── app.py                    # Application entry point
 ├── config.py                 # Configuration settings
 ├── requirements.txt          # Python dependencies
-├── start.ps1                 # Windows startup script
-├── controllers/              # HTTP routing (thin)
+│
+├── controllers/              # HTTP routing (thin layer)
+│   ├── __init__.py          # Blueprint registration
+│   ├── dashboard.py         # Dashboard routes
+│   ├── customers.py         # Customer routes
+│   ├── purchase_orders.py   # Purchase order routes
+│   ├── work_orders.py       # Work order routes
+│   └── packing_slips.py     # Packing slip routes
+│
+├── services/                 # Business logic + SQL (fat layer)
 │   ├── __init__.py
-│   ├── customers.py
-│   ├── dashboard.py
-│   ├── purchase_orders.py
-│   ├── packing_slips.py
-│   └── work_orders.py
-├── services/                 # Business logic + SQL (fat)
-│   ├── __init__.py
-│   └── customer_service.py   # Example service
+│   └── customer_service.py  # Customer business logic
+│
 ├── database/                 # Database utilities
 │   ├── __init__.py
-│   └── db.py                 # DB.query(), DB.execute(), etc.
+│   └── db.py                # DB.query(), DB.execute(), etc.
+│
 ├── templates/                # Jinja2 templates
-│   ├── base_layout.html
-│   ├── components/
-│   │   ├── sidebar.html
-│   │   └── topbar.html
-│   ├── customers/
+│   ├── base_layout.html     # Base HTML structure
+│   ├── components/          # Reusable components
+│   │   ├── sidebar.html     # Navigation sidebar
+│   │   └── topbar.html      # Top navigation bar
+│   ├── customers/           # Customer templates
+│   │   ├── index.html       # Full page
+│   │   ├── content.html     # HTMX partial
+│   │   ├── create.html      # Full page
+│   │   └── create_content.html  # HTMX partial
 │   ├── dashboard/
 │   ├── purchase_orders/
-│   ├── packing_slips/
-│   └── work_orders/
-└── static/                   # Static assets
-    └── css/
-        └── style.css</code></pre>
+│   ├── work_orders/
+│   └── packing_slips/
+│
+├── static/                   # Static assets
+│   ├── css/
+│   │   └── style.css        # Application styles
+│   └── img/                 # Images
+│
+├── docs/                     # Documentation
+│   ├── developer-guide.html # This file
+│   ├── user-guide.html
+│   └── static/              # Doc assets
+│       └── img/
+│           └── finishing_labs_db_p1.JPG
+│
+└── instance/                 # Instance-specific files (gitignored)</code></pre>
+                </div>
+            </section>
+
+            <section id="mvc">
+                <h2>MVC Pattern: Views, Controllers, Services</h2>
+                <p>This application uses a modified MVC pattern with an added Service Layer for separation of concerns.</p>
+
+                <h3 id="views">Views (Templates)</h3>
+                <p>Views are Jinja2 HTML templates that render the user interface. Each module has two types of templates:</p>
+                
+                <h4>Template Types</h4>
+                <ul>
+                    <li><strong>Full Page Templates (index.html, create.html):</strong> Complete HTML pages with sidebar/topbar for direct URL access</li>
+                    <li><strong>Content Templates (content.html, create_content.html):</strong> Partial HTML for HTMX requests (no sidebar/topbar)</li>
+                </ul>
+
+                <h4>Template Structure Example</h4>
+                <div class="code-block">
+                    <pre><code>{# customers/index.html - Full page template #}
+{% extends 'base_layout.html' %}
+
+{% block title %}Customers - Finishing Labs ERP{% endblock %}
+
+{% block content %}
+    {% include 'components/sidebar.html' %}
+    {% include 'components/topbar.html' %}
+    {% include 'customers/content.html' %}
+{% endblock %}
+
+{# customers/content.html - Partial for HTMX #}
+&lt;div id="content" class="page-container"&gt;
+    &lt;div class="page-header"&gt;
+        &lt;h2&gt;Customers&lt;/h2&gt;
+        &lt;a href="/customers/create" 
+           hx-get="/customers/create" 
+           hx-target="#content" 
+           hx-swap="innerHTML"
+           hx-push-url="true"
+           class="btn-new"&gt;
+            New Customer
+        &lt;/a&gt;
+    &lt;/div&gt;
+    
+    &lt;!-- Customer list table --&gt;
+&lt;/div&gt;</code></pre>
+                </div>
+
+                <h4>Template Usage Guidelines</h4>
+                <ul>
+                    <li>Always create both full page and content-only versions</li>
+                    <li>Use HTMX attributes (hx-get, hx-post) for dynamic interactions</li>
+                    <li>Keep business logic out of templates - controllers pass data</li>
+                    <li>Use Jinja2 filters and template helpers for formatting</li>
+                </ul>
+
+                <h3 id="controllers">Controllers</h3>
+                <p>Controllers handle HTTP routing and request/response flow. <strong>Keep controllers thin</strong> - they should delegate to services for business logic and data access.</p>
+
+                <h4>Controller Responsibilities</h4>
+                <ul>
+                    <li>Define HTTP routes and methods</li>
+                    <li>Detect HTMX requests (check HX-Request header)</li>
+                    <li>Extract request parameters</li>
+                    <li>Call service layer functions</li>
+                    <li>Return appropriate template (full page or partial)</li>
+                </ul>
+
+                <h4>Controller Example</h4>
+                <div class="code-block">
+                    <pre><code># controllers/customers.py
+from flask import Blueprint, render_template, request
+from services import customer_service
+
+customers_bp = Blueprint('customers', __name__)
+
+
+@customers_bp.route('/')
+def index():
+    """List all customers - thin controller pattern"""
+    # Delegate to service for data
+    customers = customer_service.get_all_customers()
+    
+    # Check if HTMX request or direct URL access
+    if request.headers.get('HX-Request'):
+        # HTMX: return partial template
+        return render_template('customers/content.html', 
+                             customers=customers,
+                             page_title='Customers')
+    # Direct URL: return full page
+    return render_template('customers/index.html', 
+                         customers=customers,
+                         page_title='Customers')
+
+
+@customers_bp.route('/create')
+def create():
+    """Show create customer form"""
+    if request.headers.get('HX-Request'):
+        return render_template('customers/create_content.html')
+    return render_template('customers/create.html')
+
+
+@customers_bp.route('/', methods=['POST'])
+def store():
+    """Create new customer"""
+    # Extract form data
+    company_name = request.form.get('company_name')
+    contact_email = request.form.get('contact_email')
+    phone = request.form.get('phone')
+    
+    # Validate (or delegate validation to service)
+    if not company_name or not contact_email:
+        return render_template('customers/create_content.html',
+                             error='Company name and email required',
+                             form_data=request.form)
+    
+    # Delegate to service
+    customer_id = customer_service.create_customer(
+        company_name, contact_email, phone
+    )
+    
+    # Return updated list
+    customers = customer_service.get_all_customers()
+    return render_template('customers/content.html',
+                         customers=customers,
+                         success=f'Customer created successfully')</code></pre>
+                </div>
+
+                <h4>Controller Guidelines</h4>
+                <ul>
+                    <li>Controllers should be 10-30 lines per route</li>
+                    <li>Always check for HX-Request header</li>
+                    <li>Never write SQL in controllers - use services</li>
+                    <li>Handle validation errors gracefully</li>
+                    <li>Return HTML templates, not JSON (HTMX expects HTML)</li>
+                </ul>
+
+                <h3 id="services">Services</h3>
+                <p>Services contain all business logic and SQL queries. <strong>Keep services fat</strong> - this is where the real work happens.</p>
+
+                <h4>Service Responsibilities</h4>
+                <ul>
+                    <li>Execute SQL queries via database utility</li>
+                    <li>Implement business logic and rules</li>
+                    <li>Data validation and transformation</li>
+                    <li>Transaction management for complex operations</li>
+                    <li>Reusable functions for multiple controllers</li>
+                </ul>
+
+                <h4>Service Example</h4>
+                <div class="code-block">
+                    <pre><code># services/customer_service.py
+from database.db import DB
+
+
+def get_all_customers(active_only=True):
+    """Get list of customers - raw SQL query"""
+    if active_only:
+        sql = """
+            SELECT customer_id, company_name, contact_email, 
+                   phone, active, created_at
+            FROM customers
+            WHERE active = %s
+            ORDER BY company_name
+        """
+        return DB.query(sql, [True])
+    else:
+        sql = """
+            SELECT customer_id, company_name, contact_email, 
+                   phone, active, created_at
+            FROM customers
+            ORDER BY company_name
+        """
+        return DB.query(sql)
+
+
+def get_customer_by_id(customer_id):
+    """Get single customer"""
+    sql = """
+        SELECT customer_id, company_name, contact_email, phone,
+               address, city, state, zip_code, active, created_at
+        FROM customers
+        WHERE customer_id = %s
+    """
+    return DB.fetch_one(sql, [customer_id])
+
+
+def create_customer(company_name, email, phone=None):
+    """Create new customer and return ID"""
+    sql = """
+        INSERT INTO customers 
+        (company_name, contact_email, phone, active, created_at)
+        VALUES (%s, %s, %s, %s, NOW())
+        RETURNING customer_id
+    """
+    return DB.execute_returning_id(sql, [company_name, email, phone, True])
+
+
+def update_customer(customer_id, company_name, email, phone):
+    """Update existing customer"""
+    sql = """
+        UPDATE customers
+        SET company_name = %s, contact_email = %s, phone = %s
+        WHERE customer_id = %s
+    """
+    DB.execute(sql, [company_name, email, phone, customer_id])
+
+
+def deactivate_customer(customer_id):
+    """Soft delete - set active = false"""
+    sql = "UPDATE customers SET active = %s WHERE customer_id = %s"
+    DB.execute(sql, [False, customer_id])
+
+
+def validate_customer_data(company_name, email):
+    """Business logic - validate customer data"""
+    errors = []
+    
+    if not company_name or len(company_name) < 2:
+        errors.append('Company name must be at least 2 characters')
+    
+    if not email or '@' not in email:
+        errors.append('Valid email address required')
+    
+    # Check for duplicate email
+    sql = "SELECT COUNT(*) FROM customers WHERE contact_email = %s"
+    count = DB.fetch_value(sql, [email])
+    if count > 0:
+        errors.append('Email address already exists')
+    
+    return errors</code></pre>
+                </div>
+
+                <h4>Service Guidelines</h4>
+                <ul>
+                    <li>All SQL queries belong in services, never in controllers</li>
+                    <li>Use DB.query() for SELECT returning multiple rows</li>
+                    <li>Use DB.fetch_one() for SELECT returning single row</li>
+                    <li>Use DB.fetch_value() for SELECT returning single value</li>
+                    <li>Use DB.execute() for INSERT/UPDATE/DELETE</li>
+                    <li>Use DB.execute_returning_id() for INSERT...RETURNING</li>
+                    <li>Use DB.transaction() context manager for multi-query operations</li>
+                    <li>Write descriptive SQL with proper formatting</li>
+                </ul>
+
+                <h4>Complete Request Flow</h4>
+                <div class="code-block">
+                    <pre><code># Example: User creates a new customer
+
+1. User clicks "New Customer" button
+   → HTMX: GET /customers/create
+
+2. Controller (customers.py):
+   - Detects HX-Request header
+   - Returns customers/create_content.html (form)
+
+3. HTMX swaps form into #content div (no page reload)
+
+4. User fills form and clicks "Create"
+   → HTMX: POST /customers with form data
+
+5. Controller (customers.py):
+   - Extracts form data
+   - Calls customer_service.create_customer()
+
+6. Service (customer_service.py):
+   - Executes SQL INSERT
+   - Returns new customer_id
+
+7. Controller:
+   - Calls customer_service.get_all_customers()
+   - Returns customers/content.html with updated list
+
+8. HTMX swaps updated list into #content
+   → User sees new customer in list (no page reload!)</code></pre>
                 </div>
             </section>
 
             <section id="database">
+                <h2>Database</h2>
+                <p>The system uses <strong>PostgreSQL</strong> with <strong>raw SQL</strong> (no ORM). This provides full control over queries and optimal performance.</p>
+
+                <h3>Database Schema</h3>
+                <img src="static/img/finishing_labs_db_p1.JPG" alt="Database Schema Diagram" class="schema-diagram" style="max-width: 100%; height: auto; margin: 20px 0;">
+                
+                <h3>Core Tables</h3>
+                <ul>
+                    <li><strong>customers:</strong> Customer information and contacts</li>
+                    <li><strong>purchase_orders:</strong> Customer purchase orders (renamed from "orders")</li>
+                    <li><strong>work_orders:</strong> Production work orders (renamed from "production")</li>
+                    <li><strong>packing_slips:</strong> Shipping documentation</li>
+                </ul>
+
+                <h3>Database Connection</h3>
+                <p>Connection managed by <code>database/db.py</code> using psycopg3. Configure via environment variables:</p>
+                
+                <div class="code-block">
+                    <pre><code># Option 1: Single connection string (Production - Render, Heroku, etc.)
+DATABASE_URL=postgresql://user:password@host:5432/database_name
+
+# Option 2: Individual variables (Local development)
+DB_NAME=finishing_labs_erp
+DB_USER=postgres
+DB_PASSWORD=postgres
+DB_HOST=localhost
+DB_PORT=5432</code></pre>
+                </div>
+
+                <h3>Database Utility (database/db.py)</h3>
+                <p>The DB class provides a simple, PHP-like interface for executing SQL queries:</p>
+
+                <h4>Available Methods</h4>
+                <div class="code-block">
+                    <pre><code>from database.db import DB
+
+# Fetch multiple rows as list of dicts
+customers = DB.query(
+    "SELECT * FROM customers WHERE active = %s", 
+    [True]
+)
+# Returns: [{'customer_id': 1, 'company_name': 'ABC', ...}, ...]
+
+# Fetch single row as dict
+customer = DB.fetch_one(
+    "SELECT * FROM customers WHERE customer_id = %s", 
+    [42]
+)
+# Returns: {'customer_id': 42, 'company_name': 'ABC', ...}
+
+# Fetch single value
+count = DB.fetch_value("SELECT COUNT(*) FROM customers")
+# Returns: 150
+
+# Execute INSERT/UPDATE/DELETE (no return value)
+DB.execute(
+    "UPDATE customers SET active = %s WHERE customer_id = %s",
+    [False, 42]
+)
+
+# Execute INSERT and get generated ID
+customer_id = DB.execute_returning_id(
+    "INSERT INTO customers (company_name, email) VALUES (%s, %s) RETURNING customer_id",
+    ['New Company', 'new@example.com']
+)
+# Returns: 151
+
+# Transaction (multiple queries, commit/rollback together)
+with DB.transaction():
+    order_id = DB.execute_returning_id(
+        "INSERT INTO purchase_orders (...) VALUES (...) RETURNING order_id",
+        [...]
+    )
+    DB.execute(
+        "INSERT INTO order_items (...) VALUES (...)",
+        [order_id, ...]
+    )
+# If any query fails, entire transaction rolls back</code></pre>
+                </div>
+
+                <h4>Query Guidelines</h4>
+                <ul>
+                    <li>Always use parameterized queries with <code>%s</code> placeholders</li>
+                    <li>Pass parameters as list: <code>[param1, param2]</code></li>
+                    <li>Never concatenate user input into SQL strings (SQL injection risk)</li>
+                    <li>Use triple-quoted strings for multi-line queries</li>
+                    <li>Format SQL for readability (one column per line for long lists)</li>
+                </ul>
+
+                <h3>Schema Management</h3>
+                <p>Database schema managed with SQL migration files (no ORM migrations):</p>
+                
+                <div class="code-block">
+                    <pre><code># Create migrations directory
+mkdir migrations
+
+# Create migration files
+migrations/
+├── 001_initial_schema.sql      # Base tables
+├── 002_add_customers.sql       # Customer fields
+├── 003_add_indexes.sql         # Performance indexes
+└── 004_add_work_orders.sql     # Work orders table
+
+# Apply migration manually
+psql $DATABASE_URL < migrations/004_add_work_orders.sql
+
+# Or via Python script
+import os
+import psycopg
+DATABASE_URL = os.environ.get('DATABASE_URL')
+conn = psycopg.connect(DATABASE_URL)
+with open('migrations/004_add_work_orders.sql') as f:
+    conn.execute(f.read())
+conn.commit()</code></pre>
+                </div>
+
+                <h3>Database Best Practices</h3>
+                <ul>
+                    <li>Write SQL in services, never in controllers or templates</li>
+                    <li>Use transactions for multi-step operations</li>
+                    <li>Add indexes for frequently queried columns</li>
+                    <li>Use soft deletes (active=false) instead of hard deletes</li>
+                    <li>Include created_at and updated_at timestamps</li>
+                    <li>Use SERIAL/BIGSERIAL for primary keys</li>
+                </ul>
+            </section>
+
+            <section id="restful">
+                <h2>RESTful Conventions</h2>
+                <p>The system follows RESTful principles for URL structure and HTTP methods across all modules.</p>
+
+                <h3>URL Structure</h3>
+                <div class="code-block">
+                    <pre><code>GET    /resource                     List all items
+GET    /resource/create              Show create form
+POST   /resource                     Create new item
+GET    /resource/:id                 View single item
+GET    /resource/:id/edit            Show edit form
+POST   /resource/:id                 Update item
+DELETE /resource/:id                 Delete item</code></pre>
+                </div>
+
+                <h3>Module URL Patterns</h3>
+                <div class="code-block">
+                    <pre><code># Customers
+GET    /customers                    List customers
+GET    /customers/create             Create form
+POST   /customers                    Create customer
+GET    /customers/:id                View customer
+GET    /customers/:id/edit           Edit form
+POST   /customers/:id                Update customer
+DELETE /customers/:id                Delete customer
+
+# Purchase Orders
+GET    /purchase-orders              List orders
+GET    /purchase-orders/create       Create form
+POST   /purchase-orders              Create order
+GET    /purchase-orders/:id          View order
+GET    /purchase-orders/:id/edit     Edit form
+POST   /purchase-orders/:id          Update order
+DELETE /purchase-orders/:id          Delete order
+
+# Work Orders
+GET    /work-orders                  List work orders
+GET    /work-orders/create           Create form
+POST   /work-orders                  Create work order
+GET    /work-orders/:id              View work order
+GET    /work-orders/builder          Special: work order builder
+POST   /work-orders/:id              Update work order
+
+# Packing Slips
+GET    /packing-slips                List packing slips
+GET    /packing-slips/create         Create form
+POST   /packing-slips                Create packing slip
+GET    /packing-slips/:id            View packing slip</code></pre>
+                </div>
+
+                <h3>HTTP Method Guidelines</h3>
+                <ul>
+                    <li><strong>GET:</strong> Read operations, no side effects, cacheable</li>
+                    <li><strong>POST:</strong> Create and update operations (HTML forms don't support PUT)</li>
+                    <li><strong>DELETE:</strong> Delete operations (triggered via HTMX)</li>
+                </ul>
+
+                <h3>Response Patterns</h3>
+                <ul>
+                    <li><strong>List view (GET /resource):</strong> Return content.html or index.html</li>
+                    <li><strong>Create form (GET /resource/create):</strong> Return create_content.html or create.html</li>
+                    <li><strong>Create action (POST /resource):</strong> Return content.html (list) on success, create_content.html (form) on error</li>
+                    <li><strong>View item (GET /resource/:id):</strong> Return view_content.html</li>
+                    <li><strong>Delete action (DELETE /resource/:id):</strong> Return empty response or updated list</li>
+                </ul>
+            </section>
+
+            <section id="naming">
+                <h2>Naming Conventions</h2>
+                <p>Consistent naming across the codebase for clarity and maintainability.</p>
+
+                <h3>Files and Directories</h3>
+                <ul>
+                    <li><strong>Python files:</strong> Snake_case - <code>customer_service.py</code>, <code>purchase_orders.py</code></li>
+                    <li><strong>Template files:</strong> Snake_case - <code>create_content.html</code>, <code>index.html</code></li>
+                    <li><strong>CSS files:</strong> Kebab-case - <code>style.css</code></li>
+                    <li><strong>Directories:</strong> Snake_case - <code>purchase_orders/</code>, <code>work_orders/</code></li>
+                </ul>
+
+                <h3>Python Code</h3>
+                <div class="code-block">
+                    <pre><code># Variables and functions: snake_case
+customer_id = 42
+def get_customer_by_id(customer_id):
+    pass
+
+# Classes: PascalCase
+class DatabaseConnection:
+    pass
+
+# Constants: UPPER_SNAKE_CASE
+MAX_RESULTS = 100
+DATABASE_URL = "postgresql://..."
+
+# Blueprints: module_name + _bp suffix
+customers_bp = Blueprint('customers', __name__)
+purchase_orders_bp = Blueprint('purchase_orders', __name__)</code></pre>
+                </div>
+
+                <h3>Database Conventions</h3>
+                <div class="code-block">
+                    <pre><code># Tables: plural, snake_case
+customers
+purchase_orders
+work_orders
+packing_slips
+
+# Columns: singular, snake_case
+customer_id
+company_name
+contact_email
+created_at
+updated_at
+
+# Primary keys: table_name_id (singular)
+customer_id
+order_id
+work_order_id
+
+# Foreign keys: referenced_table_id (singular)
+customer_id  (in orders table)
+order_id     (in work_orders table)
+
+# Boolean columns: active, is_*, has_*
+active
+is_shipped
+has_payment
+
+# Timestamps: *_at suffix
+created_at
+updated_at
+shipped_at</code></pre>
+                </div>
+
+                <h3>URLs and Routes</h3>
+                <ul>
+                    <li><strong>URL paths:</strong> Kebab-case - <code>/purchase-orders</code>, <code>/work-orders</code></li>
+                    <li><strong>Blueprint names:</strong> Match module name - <code>'customers'</code>, <code>'purchase_orders'</code></li>
+                    <li><strong>Route functions:</strong> Snake_case, RESTful verbs - <code>index()</code>, <code>create()</code>, <code>store()</code>, <code>edit()</code>, <code>update()</code>, <code>destroy()</code></li>
+                </ul>
+
+                <h3>Templates</h3>
+                <ul>
+                    <li><strong>Full pages:</strong> <code>index.html</code>, <code>create.html</code>, <code>edit.html</code></li>
+                    <li><strong>Partials (HTMX):</strong> <code>content.html</code>, <code>create_content.html</code>, <code>edit_content.html</code></li>
+                    <li><strong>Components:</strong> <code>sidebar.html</code>, <code>topbar.html</code></li>
+                    <li><strong>Template variables:</strong> Snake_case - <code>{{ customer_id }}</code>, <code>{{ page_title }}</code></li>
+                </ul>
+
+                <h3>CSS and HTML</h3>
+                <div class="code-block">
+                    <pre><code>/* CSS classes: kebab-case with BEM-style modifiers */
+.page-container
+.page-header
+.page-title
+.btn-primary
+.btn-new
+.sidebar-link
+.sidebar-link--active
+
+/* HTML IDs: kebab-case */
+&lt;div id="content"&gt;
+&lt;div id="customer-form"&gt;
+
+/* HTMX attributes: lowercase with hyphens */
+hx-get="/customers"
+hx-target="#content"
+hx-push-url="true"</code></pre>
+                </div>
+            </section>
+
+            <section id="htmx">
+                <h2>HTMX Patterns</h2>
+                <p>HTMX enables dynamic interactions without JavaScript. Here are the common patterns used throughout the app.</p>
+
+                <h3>How HTMX Works</h3>
+                <ol>
+                    <li>User interacts with HTMX-enhanced element (click, submit, etc.)</li>
+                    <li>HTMX intercepts the action and makes AJAX request</li>
+                    <li>Request includes <code>HX-Request: true</code> header</li>
+                    <li>Server detects header and returns HTML partial (not full page)</li>
+                    <li>HTMX swaps response into target element</li>
+                    <li>Browser URL updates (if hx-push-url specified)</li>
+                </ol>
+
+                <h3>Pattern: Navigation Link</h3>
+                <div class="code-block">
+                    <pre><code>&lt;a href="/customers" 
+   hx-get="/customers" 
+   hx-target="#content" 
+   hx-swap="innerHTML" 
+   hx-push-url="true"&gt;
+    Customers
+&lt;/a&gt;
+
+{# Attributes explained:
+   href="/customers"      - Fallback for non-JS browsers
+   hx-get="/customers"    - AJAX GET request to this URL
+   hx-target="#content"   - Put response HTML into this element
+   hx-swap="innerHTML"    - Replace inner HTML of target
+   hx-push-url="true"     - Update browser URL and history
+#}</code></pre>
+                </div>
+
+                <h3>Pattern: Form Submission</h3>
+                <div class="code-block">
+                    <pre><code>&lt;form hx-post="/customers" 
+      hx-target="#content" 
+      hx-swap="innerHTML"&gt;
+    &lt;input type="text" name="company_name" required&gt;
+    &lt;input type="email" name="contact_email" required&gt;
+    &lt;button type="submit"&gt;Create Customer&lt;/button&gt;
+&lt;/form&gt;
+
+{# On submit:
+   1. HTMX intercepts form submission
+   2. Makes POST request with form data
+   3. Server creates customer and returns list HTML
+   4. HTMX swaps list into #content
+   5. No page reload!
+#}</code></pre>
+                </div>
+
+                <h3>Pattern: Delete with Confirmation</h3>
+                <div class="code-block">
+                    <pre><code>&lt;button hx-delete="/customers/42" 
+        hx-confirm="Delete this customer?" 
+        hx-target="closest tr" 
+        hx-swap="outerHTML"&gt;
+    Delete
+&lt;/button&gt;
+
+{# Attributes:
+   hx-delete         - HTTP DELETE request
+   hx-confirm        - Browser confirmation dialog
+   hx-target="closest tr" - Remove the table row
+   hx-swap="outerHTML"    - Replace entire element
+#}</code></pre>
+                </div>
+
+                <h3>Controller HTMX Detection</h3>
+                <div class="code-block">
+                    <pre><code>@app.route('/customers')
+def index():
+    # Check for HTMX request header
+    if request.headers.get('HX-Request'):
+        # HTMX: return partial
+        return render_template('customers/content.html')
+    # Direct URL: return full page
+    return render_template('customers/index.html')</code></pre>
+                </div>
+            </section>
+
+            <section id="deployment">
+                <h2>Deployment</h2>
+                <p>Deployment guide for production hosting with PostgreSQL database.</p>
+
+                <h3 id="deployment-initial">Initial Setup</h3>
+                <p>Deploy to a platform that supports Python web apps and PostgreSQL (Render, Railway, Heroku, DigitalOcean).</p>
+
+                <h4>1. Prepare the Application</h4>
+                <div class="code-block">
+                    <pre><code># Ensure requirements.txt is up to date
+pip freeze > requirements.txt
+
+# Create Procfile for web server (Heroku/Render)
+echo "web: gunicorn app:app" > Procfile
+
+# Add gunicorn to requirements
+echo "gunicorn==21.2.0" >> requirements.txt
+
+# Commit changes
+git add .
+git commit -m "Prepare for deployment"
+git push</code></pre>
+                </div>
+
+                <h4>2. Set Up PostgreSQL Database</h4>
+                <ul>
+                    <li><strong>Render:</strong> Create PostgreSQL database service, copy internal database URL</li>
+                    <li><strong>Railway:</strong> Add PostgreSQL plugin, copy DATABASE_URL from variables</li>
+                    <li><strong>Heroku:</strong> Add Heroku Postgres add-on, DATABASE_URL auto-configured</li>
+                </ul>
+
+                <h4>3. Configure Environment Variables</h4>
+                <p>Set these in your hosting platform's environment variables section:</p>
+                <div class="code-block">
+                    <pre><code>DATABASE_URL=postgresql://user:pass@host:5432/dbname
+SECRET_KEY=your-secret-key-here-generate-long-random-string
+FLASK_ENV=production</code></pre>
+                </div>
+
+                <h4>4. Initialize Database Schema</h4>
+                <div class="code-block">
+                    <pre><code># Connect to production database via command line
+psql $DATABASE_URL
+
+# Or use pgAdmin, DBeaver, etc. to connect
+
+# Run initial schema migration
+\i migrations/001_initial_schema.sql
+\i migrations/002_add_customers.sql
+\i migrations/003_add_indexes.sql
+
+# Or use Python script
+python scripts/init_database.py</code></pre>
+                </div>
+
+                <h4>5. Deploy Application</h4>
+                <ul>
+                    <li><strong>Render:</strong> Connect GitHub repo, auto-deploys on push to main</li>
+                    <li><strong>Railway:</strong> Connect GitHub repo, auto-deploys on push</li>
+                    <li><strong>Heroku:</strong> <code>git push heroku main</code></li>
+                </ul>
+
+                <h3 id="deployment-updates">Updating the Application</h3>
+                <p>After initial setup, this is how you deploy updates and changes.</p>
+
+                <h4>Code Updates (No Database Changes)</h4>
+                <div class="code-block">
+                    <pre><code># 1. Make code changes locally
+# 2. Test locally: python app.py
+
+# 3. Commit and push
+git add .
+git commit -m "Add new feature"
+git push
+
+# 4. Platform automatically deploys update
+# Render, Railway, and Heroku auto-deploy on git push</code></pre>
+                </div>
+
+                <h4>Database Schema Updates</h4>
+                <div class="code-block">
+                    <pre><code># 1. Create new migration file
+migrations/005_add_vendor_table.sql:
+    CREATE TABLE vendors (
+        vendor_id SERIAL PRIMARY KEY,
+        vendor_name VARCHAR(255) NOT NULL,
+        created_at TIMESTAMP DEFAULT NOW()
+    );
+
+# 2. Test migration locally
+psql finishing_labs_erp < migrations/005_add_vendor_table.sql
+
+# 3. Commit migration file
+git add migrations/005_add_vendor_table.sql
+git commit -m "Add vendors table migration"
+git push
+
+# 4. Run migration on production database
+psql $DATABASE_URL < migrations/005_add_vendor_table.sql
+
+# 5. Update code to use new table
+# 6. Commit and push code changes</code></pre>
+                </div>
+
+                <h4>Deployment Checklist</h4>
+                <ul>
+                    <li>✅ Test changes locally before pushing</li>
+                    <li>✅ Commit database migrations separately from code</li>
+                    <li>✅ Run migrations on production before deploying code that uses them</li>
+                    <li>✅ Check application logs for errors after deployment</li>
+                    <li>✅ Test critical user flows in production</li>
+                </ul>
+
+                <h4>Monitoring and Maintenance</h4>
+                <div class="code-block">
+                    <pre><code># View application logs
+# Render: Dashboard → Logs tab
+# Railway: Project → Deployments → View logs
+# Heroku: heroku logs --tail
+
+# Connect to production database
+psql $DATABASE_URL
+
+# Create database backup
+pg_dump $DATABASE_URL > backup_$(date +%Y%m%d).sql
+
+# Restore from backup
+psql $DATABASE_URL < backup_20260427.sql</code></pre>
+                </div>
+
+                <h4>Rollback Procedure</h4>
+                <div class="code-block">
+                    <pre><code># If deployment breaks production:
+
+# 1. Rollback code (revert to previous commit)
+git revert HEAD
+git push
+
+# 2. Or rollback to specific deployment
+# Render: Dashboard → pick previous deployment
+# Railway: Deployments → Redeploy previous
+# Heroku: heroku rollback
+
+# 3. If database migration caused issues:
+psql $DATABASE_URL < rollback_migration.sql</code></pre>
+                </div>
+
+                <h3>Production Configuration</h3>
+                <ul>
+                    <li><strong>Web Server:</strong> Gunicorn with 2-4 workers</li>
+                    <li><strong>Database:</strong> PostgreSQL with connection pooling</li>
+                    <li><strong>Static Files:</strong> Served via platform CDN or Nginx</li>
+                    <li><strong>SSL:</strong> Automatic via Render/Railway/Heroku</li>
+                    <li><strong>Monitoring:</strong> Platform dashboard logs and metrics</li>
+                </ul>
+            </section>
+        </article>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Finishing Labs ERP. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
                 <h2>Database</h2>
                 <p>The system uses <strong>PostgreSQL</strong> with <strong>raw SQL queries</strong> (no ORM). This provides full control over queries and optimal performance for ERP operations.</p>
                 
