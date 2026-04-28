@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Developer Guide - Finishing Labs ERP</title>
+    <title>Developer Guide - Finishing Lab ERP</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
         <div class="container">
-            <h1>Finishing Labs ERP</h1>
+            <h1>Finishing Lab ERP</h1>
             <p class="subtitle">Developer Guide</p>
         </div>
     </header>
@@ -33,7 +33,16 @@
                 <li><a href="#controllers">Controllers</a></li>
                 <li><a href="#templates">Templates</a></li>
                 <li><a href="#htmx">HTMX Integration</a></li>
-                <li><a href="#extending">Extending the System</a></li>
+                <li><a href="#extending">Extending the System</a>
+                    <ul style="margin-left: 15px; font-size: 0.9em;">
+                        <li><a href="#extending">Adding New Modules</a></li>
+                        <li><a href="#extending">Complete Feature Example</a></li>
+                        <li><a href="#extending">HTMX Patterns</a></li>
+                        <li><a href="#extending">Best Practices</a></li>
+                    </ul>
+                </li>
+                <li><a href="#testing">Testing</a></li>
+                <li><a href="#deployment">Deployment</a></li>
             </ul>
         </aside>
 
@@ -117,9 +126,9 @@ python app.py
 │   ├── __init__.py
 │   ├── customers.py          # Customer management
 │   ├── dashboard.py          # Dashboard metrics
-│   ├── orders.py             # Order processing
+│   ├── purchase_orders.py    # Purchase order processing
 │   ├── packing_slips.py      # Packing slip generation
-│   └── production.py         # Production tracking
+│   └── work_orders.py        # Work order/production tracking
 ├── models/                   # Database models
 │   └── __init__.py
 ├── templates/                # Jinja2 templates
@@ -129,9 +138,9 @@ python app.py
 │   │   └── topbar.html
 │   ├── customers/            # Customer views
 │   ├── dashboard/            # Dashboard views
-│   ├── orders/               # Order views
+│   ├── purchase_orders/      # Purchase order views
 │   ├── packing_slips/        # Packing slip views
-│   └── production/           # Production views
+│   └── work_orders/          # Work order/production views
 └── static/                   # Static assets
     └── css/
         └── style.css         # Application styles</code></pre>
@@ -141,7 +150,7 @@ python app.py
             <section id="database">
                 <h2>Database Schema</h2>
                 <p>The system uses SQLAlchemy ORM for database interactions. Models are defined in the <code>models/</code> directory.</p>
-                
+                <img src="static/img/finishing_labs_db_p1.JPG" alt="Database Schema Diagram" class="schema-diagram">
                 <h3>Core Entities</h3>
                 <ul>
                     <li><strong>Customer:</strong> Stores customer information and contact details</li>
@@ -179,9 +188,9 @@ def index():
                 <ul>
                     <li><strong>dashboard.py:</strong> Dashboard and analytics</li>
                     <li><strong>customers.py:</strong> CRUD operations for customers</li>
-                    <li><strong>orders.py:</strong> Order creation and management</li>
+                    <li><strong>purchase_orders.py:</strong> Purchase order creation and management</li>
                     <li><strong>packing_slips.py:</strong> Packing slip generation</li>
-                    <li><strong>production.py:</strong> Production workflow and builder</li>
+                    <li><strong>work_orders.py:</strong> Work order workflow and production tracking</li>
                 </ul>
             </section>
 
@@ -215,59 +224,478 @@ def index():
 
             <section id="htmx">
                 <h2>HTMX Integration</h2>
-                <p>HTMX enables dynamic interactions without writing JavaScript. See <code>HTMX_REFERENCE.md</code> for details.</p>
+                <p>HTMX enables dynamic, single-page-app-like interactions without writing JavaScript. It works by intercepting user actions and making AJAX requests, then swapping HTML responses into the page.</p>
 
-                <h3>Common Patterns</h3>
+                <h3>How It Works</h3>
+                <p>When a user interacts with an HTMX-enhanced element:</p>
+                <ol>
+                    <li>HTMX intercepts the action (click, submit, etc.)</li>
+                    <li>Makes an AJAX request with header <code>HX-Request: true</code></li>
+                    <li>Server detects HTMX header and returns HTML partial</li>
+                    <li>HTMX swaps the response into specified target element</li>
+                    <li>Browser URL updates (if <code>hx-push-url</code> is set)</li>
+                    <li>No page reload occurs - smooth, seamless transition!</li>
+                </ol>
+
+                <h3>Core HTMX Attributes</h3>
                 <ul>
-                    <li><strong>hx-get:</strong> Load content dynamically</li>
-                    <li><strong>hx-post:</strong> Submit forms via AJAX</li>
-                    <li><strong>hx-target:</strong> Specify where to insert response</li>
-                    <li><strong>hx-swap:</strong> Control how content is swapped</li>
+                    <li><strong>hx-get="/url":</strong> Make GET request to URL on trigger</li>
+                    <li><strong>hx-post="/url":</strong> Make POST request (for forms)</li>
+                    <li><strong>hx-delete="/url":</strong> Make DELETE request</li>
+                    <li><strong>hx-target="#id":</strong> Where to insert the response HTML</li>
+                    <li><strong>hx-swap="innerHTML":</strong> How to insert: innerHTML, outerHTML, beforeend, etc.</li>
+                    <li><strong>hx-push-url="true":</strong> Update browser URL and history</li>
+                    <li><strong>hx-trigger="click":</strong> What triggers the request (click, change, load, etc.)</li>
+                    <li><strong>hx-confirm="message":</strong> Show confirmation dialog before request</li>
                 </ul>
 
-                <h3>Example</h3>
+                <h3>Example: Navigation Link</h3>
                 <div class="code-block">
-                    <pre><code>&lt;button hx-get="/orders/new" 
-        hx-target="#content" 
-        hx-swap="innerHTML"&gt;
-    New Order
-&lt;/button&gt;</code></pre>
+                    <pre><code>&lt;a href="/purchase-orders" 
+   hx-get="/purchase-orders" 
+   hx-target="#content" 
+   hx-swap="innerHTML" 
+   hx-push-url="true"&gt;
+    Purchase Orders
+&lt;/a&gt;
+
+{# When clicked:
+   1. HTMX GET requests /purchase-orders with HX-Request header
+   2. Controller returns purchase_orders/content.html (partial)
+   3. HTMX swaps into &lt;div id="content"&gt;
+   4. URL changes to /purchase-orders
+   5. No page reload, sidebar stays in place
+#}</code></pre>
                 </div>
+
+                <h3>Example: Form Submission</h3>
+                <div class="code-block">
+                    <pre><code>&lt;form hx-post="/customers" 
+      hx-target="#content" 
+      hx-swap="innerHTML"&gt;
+    &lt;input type="text" name="company_name" required&gt;
+    &lt;button type="submit"&gt;Create Customer&lt;/button&gt;
+&lt;/form&gt;
+
+{# When submitted:
+   1. HTMX POST to /customers with form data
+   2. Controller validates and creates customer
+   3. Controller returns customer list HTML
+   4. HTMX swaps list into #content
+   5. User sees updated list, no page reload
+#}</code></pre>
+                </div>
+
+                <h3>Server-Side HTMX Detection</h3>
+                <p>Controllers check for the <code>HX-Request</code> header to determine what to return:</p>
+                <div class="code-block">
+                    <pre><code>@blueprint.route('/')
+def index():
+    if request.headers.get('HX-Request'):
+        # HTMX request: return content partial only
+        return render_template('module/content.html')
+    # Direct URL: return full page with sidebar/topbar
+    return render_template('module/index.html')</code></pre>
+                </div>
+
+                <h3>Learn More</h3>
+                <ul>
+                    <li>See <code>HTMX_REFERENCE.md</code> for comprehensive guide</li>
+                    <li>See <a href="#extending">Extending the System</a> section for complete working examples</li>
+                    <li>Official HTMX docs: <a href="https://htmx.org">htmx.org</a></li>
+                </ul>
             </section>
 
             <section id="extending">
                 <h2>Extending the System</h2>
                 
-                <h3>Adding a New Module</h3>
+                <h3>Adding a New Module/Section</h3>
+                <p>This guide walks through adding a complete new section to the system, following our HTMX + Flask architecture pattern.</p>
+                
+                <h4>Step 1: Create the Controller (Backend)</h4>
+                <p>Create a new file in <code>controllers/</code> - for example, <code>controllers/vendors.py</code>:</p>
+                
+                <div class="code-block">
+                    <pre><code>"""
+Vendors Controller - Vendor management
+"""
+from flask import Blueprint, render_template, request
+
+# Create blueprint with a unique name
+vendors_bp = Blueprint('vendors', __name__)
+
+
+@vendors_bp.route('/')
+def index():
+    """
+    List all vendors
+    
+    HTMX Detection Pattern:
+    - Check for HX-Request header
+    - Return content-only template for HTMX navigation
+    - Return full page for direct URL access
+    """
+    if request.headers.get('HX-Request'):
+        # HTMX request: return just the content
+        return render_template('vendors/content.html', page_title='Vendors')
+    # Direct access: return full page with sidebar/topbar
+    return render_template('vendors/index.html', page_title='Vendors')
+
+
+@vendors_bp.route('/create')
+def create():
+    """Display create vendor form"""
+    if request.headers.get('HX-Request'):
+        return render_template('vendors/create_content.html', page_title='New Vendor')
+    return render_template('vendors/create.html', page_title='New Vendor')</code></pre>
+                </div>
+
+                <h4>Step 2: Register the Blueprint</h4>
+                <p>In <code>controllers/__init__.py</code>, add your new blueprint:</p>
+                
+                <div class="code-block">
+                    <pre><code>def register_blueprints(app):
+    # ... existing blueprints ...
+    
+    # Vendors blueprint - Vendor management
+    from .vendors import vendors_bp
+    app.register_blueprint(vendors_bp, url_prefix='/vendors')</code></pre>
+                </div>
+
+                <h4>Step 3: Create Templates</h4>
+                <p>Create a new directory: <code>templates/vendors/</code></p>
+                
+                <p><strong>Full Page Template</strong> (<code>vendors/index.html</code>):</p>
+                <div class="code-block">
+                    <pre><code>{# Vendors List - Full Page Template #}
+{% extends 'base_layout.html' %}
+
+{% block title %}Vendors - Anodizing ERP{% endblock %}
+
+{% block content %}
+    {% include 'vendors/content.html' %}
+{% endblock %}</code></pre>
+                </div>
+
+                <p><strong>Content-Only Template</strong> (<code>vendors/content.html</code>):</p>
+                <div class="code-block">
+                    <pre><code>{# Vendors List - Content Only (for HTMX partial swaps) #}
+&lt;div class="page-container"&gt;
+    &lt;div class="page-header"&gt;
+        &lt;div class="page-header-content"&gt;
+            &lt;h2 class="page-title"&gt;Vendors&lt;/h2&gt;
+            &lt;p class="page-subtitle"&gt;Manage your vendor relationships.&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;a href="/vendors/create" 
+           class="btn-new"
+           hx-get="/vendors/create" 
+           hx-target="#content" 
+           hx-swap="innerHTML" 
+           hx-push-url="true"&gt;
+            &lt;i class="fas fa-plus-circle"&gt;&lt;/i&gt;
+            New Vendor
+        &lt;/a&gt;
+    &lt;/div&gt;
+    
+    {# Your vendor list table/content here #}
+&lt;/div&gt;</code></pre>
+                </div>
+
+                <h4>Step 4: Add Sidebar Navigation</h4>
+                <p>In <code>templates/components/sidebar.html</code>, add a new navigation link:</p>
+                
+                <div class="code-block">
+                    <pre><code>&lt;a href="/vendors"
+   class="sidebar-link {{ 'active' if request.endpoint and 'vendors' in request.endpoint else '' }}"&gt;
+    &lt;i class="fas fa-truck"&gt;&lt;/i&gt;
+    &lt;span&gt;Vendors&lt;/span&gt;
+&lt;/a&gt;</code></pre>
+                </div>
+
+                <h4>Step 5: Test</h4>
                 <ol>
-                    <li>Create a new controller in <code>controllers/module_name.py</code></li>
-                    <li>Define routes using Flask Blueprint</li>
-                    <li>Create model(s) in <code>models/</code> if needed</li>
-                    <li>Add templates in <code>templates/module_name/</code></li>
-                    <li>Register the blueprint in <code>app.py</code></li>
-                    <li>Add navigation link to sidebar component</li>
+                    <li>Restart Flask: <code>python app.py</code></li>
+                    <li>Visit <code>http://127.0.0.1:5000/vendors</code> directly (full page loads)</li>
+                    <li>Click "Vendors" in sidebar (only content area swaps)</li>
+                    <li>Check browser URL updates to <code>/vendors</code></li>
+                    <li>Browser back button should work properly</li>
                 </ol>
+
+                <hr>
+
+                <h3>Adding a New Feature - Complete Example</h3>
+                <p>Let's walk through adding a "Create Customer" feature, showing the complete HTMX flow from frontend to backend and back.</p>
+
+                <h4>1. The Frontend: HTMX Button/Form</h4>
+                <p>In your <code>customers/content.html</code> page, add a button that triggers the feature:</p>
+                
+                <div class="code-block">
+                    <pre><code>&lt;!-- Button to open "New Customer" form --&gt;
+&lt;a href="/customers/create" 
+   class="btn-new"
+   hx-get="/customers/create" 
+   hx-target="#content" 
+   hx-swap="innerHTML" 
+   hx-push-url="true"&gt;
+    &lt;i class="fas fa-plus-circle"&gt;&lt;/i&gt;
+    New Customer
+&lt;/a&gt;
+
+{# HTMX Attributes Explained:
+   - hx-get="/customers/create" → Makes AJAX GET request to this URL
+   - hx-target="#content" → Put response HTML into div with id="content"
+   - hx-swap="innerHTML" → Replace inner HTML of target
+   - hx-push-url="true" → Update browser URL bar (makes it bookmarkable)
+#}</code></pre>
+                </div>
+
+                <h4>2. The Controller: Handle GET Request</h4>
+                <p>In <code>controllers/customers.py</code>, add a route to return the form:</p>
+                
+                <div class="code-block">
+                    <pre><code>@customers_bp.route('/create')
+def create():
+    """
+    Display the create customer form
+    
+    HTMX will request this URL when button is clicked
+    We return just the form HTML (no full page)
+    """
+    if request.headers.get('HX-Request'):
+        # Return form content only
+        return render_template('customers/create_content.html', 
+                             page_title='New Customer')
+    
+    # Direct URL access: return full page
+    return render_template('customers/create.html', 
+                         page_title='New Customer')</code></pre>
+                </div>
+
+                <h4>3. The Form Template: HTMX Form Submission</h4>
+                <p>Create <code>templates/customers/create_content.html</code>:</p>
+                
+                <div class="code-block">
+                    <pre><code>&lt;div class="page-container"&gt;
+    &lt;div class="page-header"&gt;
+        &lt;h2 class="page-title"&gt;New Customer&lt;/h2&gt;
+    &lt;/div&gt;
+    
+    &lt;!-- HTMX Form Submission --&gt;
+    &lt;form hx-post="/customers" 
+          hx-target="#content" 
+          hx-swap="innerHTML"&gt;
+        
+        &lt;div class="form-group"&gt;
+            &lt;label for="company_name"&gt;Company Name&lt;/label&gt;
+            &lt;input type="text" 
+                   id="company_name" 
+                   name="company_name" 
+                   required&gt;
+        &lt;/div&gt;
+        
+        &lt;div class="form-group"&gt;
+            &lt;label for="contact_email"&gt;Email&lt;/label&gt;
+            &lt;input type="email" 
+                   id="contact_email" 
+                   name="contact_email" 
+                   required&gt;
+        &lt;/div&gt;
+        
+        &lt;div class="form-group"&gt;
+            &lt;label for="phone"&gt;Phone&lt;/label&gt;
+            &lt;input type="tel" 
+                   id="phone" 
+                   name="phone"&gt;
+        &lt;/div&gt;
+        
+        &lt;button type="submit" class="btn-primary"&gt;Create Customer&lt;/button&gt;
+        &lt;a href="/customers" 
+           class="btn-secondary"
+           hx-get="/customers"
+           hx-target="#content"
+           hx-swap="innerHTML"
+           hx-push-url="true"&gt;Cancel&lt;/a&gt;
+    &lt;/form&gt;
+&lt;/div&gt;
+
+{# HTMX Form Behavior:
+   When user clicks submit:
+   1. HTMX intercepts form submission
+   2. Makes AJAX POST to /customers with form data
+   3. Waits for response from server
+   4. Swaps response HTML into #content div
+   5. No page reload!
+#}</code></pre>
+                </div>
+
+                <h4>4. The Controller: Handle POST Request</h4>
+                <p>Add POST handler to <code>controllers/customers.py</code>:</p>
+                
+                <div class="code-block">
+                    <pre><code>from flask import redirect, url_for, flash
+
+@customers_bp.route('/', methods=['POST'])
+def store():
+    """
+    Process form submission and create customer
+    
+    This receives the HTMX POST request with form data
+    """
+    # Get form data
+    company_name = request.form.get('company_name')
+    contact_email = request.form.get('contact_email')
+    phone = request.form.get('phone')
+    
+    # Validate data
+    if not company_name or not contact_email:
+        # Return form with errors
+        return render_template('customers/create_content.html',
+                             error='Company name and email are required',
+                             form_data=request.form)
+    
+    # Create customer record
+    # new_customer = Customer(
+    #     company_name=company_name,
+    #     contact_email=contact_email,
+    #     phone=phone
+    # )
+    # db.session.add(new_customer)
+    # db.session.commit()
+    
+    # Success! Return to customer list
+    # HTMX will swap this response into #content
+    return render_template('customers/content.html',
+                         page_title='Customers',
+                         success='Customer created successfully!')</code></pre>
+                </div>
+
+                <h4>5. The Response: What User Sees</h4>
+                <p>After form submission, the flow completes:</p>
+                <ol>
+                    <li>User fills out form and clicks "Create Customer"</li>
+                    <li>HTMX sends POST request to <code>/customers</code> with form data</li>
+                    <li>Controller validates and saves customer</li>
+                    <li>Controller returns <code>customers/content.html</code> (the list view)</li>
+                    <li>HTMX swaps the list view into <code>#content</code></li>
+                    <li>User sees customer list with success message</li>
+                    <li><strong>No page reload occurred!</strong></li>
+                </ol>
+
+                <h4>Complete Request Flow Diagram</h4>
+                <div class="code-block">
+                    <pre><code>User Action: Click "New Customer" button
+        ↓
+[HTMX] GET /customers/create with header HX-Request: true
+        ↓
+[Controller] Detects HTMX header
+        ↓
+[Controller] Returns create_content.html (form HTML)
+        ↓
+[HTMX] Swaps form into #content div
+        ↓
+User Action: Fill form and click "Create Customer"
+        ↓
+[HTMX] POST /customers with form data
+        ↓
+[Controller] Validates data
+        ↓
+[Controller] Creates customer record
+        ↓
+[Controller] Returns content.html (list view)
+        ↓
+[HTMX] Swaps list into #content div
+        ↓
+User sees: Customer list with new customer added</code></pre>
+                </div>
+
+                <hr>
+
+                <h3>HTMX Patterns Reference</h3>
+                
+                <h4>Pattern 1: Navigation Links</h4>
+                <div class="code-block">
+                    <pre><code>&lt;a href="/path" 
+   hx-get="/path" 
+   hx-target="#content" 
+   hx-swap="innerHTML" 
+   hx-push-url="true"&gt;
+    Link Text
+&lt;/a&gt;</code></pre>
+                </div>
+
+                <h4>Pattern 2: Form Submission</h4>
+                <div class="code-block">
+                    <pre><code>&lt;form hx-post="/endpoint" 
+      hx-target="#content"&gt;
+    &lt;input type="text" name="field" /&gt;
+    &lt;button type="submit"&gt;Submit&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+                </div>
+
+                <h4>Pattern 3: Delete Button</h4>
+                <div class="code-block">
+                    <pre><code>&lt;button hx-delete="/resource/123" 
+        hx-confirm="Are you sure?" 
+        hx-target="closest tr" 
+        hx-swap="outerHTML swap:1s"&gt;
+    Delete
+&lt;/button&gt;</code></pre>
+                </div>
+
+                <h4>Pattern 4: Inline Edit</h4>
+                <div class="code-block">
+                    <pre><code>&lt;div hx-get="/resource/123/edit" 
+     hx-target="this" 
+     hx-swap="outerHTML"&gt;
+    Click to edit
+&lt;/div&gt;</code></pre>
+                </div>
+
+                <hr>
+
+                <h3>Modal Dialogs (Future Implementation)</h3>
+                <p><em>This section is reserved for modal dialog implementation patterns. Modal functionality is planned for a future phase.</em></p>
+                
+                <p>Planned features:</p>
+                <ul>
+                    <li>HTMX-driven modal popups</li>
+                    <li>Form submission within modals</li>
+                    <li>Confirmation dialogs</li>
+                    <li>Detail views in modal windows</li>
+                </ul>
+
+                <hr>
 
                 <h3>Best Practices</h3>
                 <ul>
-                    <li>Follow the existing naming conventions</li>
-                    <li>Create both full page and content-only templates</li>
-                    <li>Use HTMX for dynamic interactions when possible</li>
-                    <li>Keep controllers thin, move business logic to models/services</li>
-                    <li>Write database migrations for schema changes</li>
-                    <li>Update documentation when adding features</li>
+                    <li><strong>Always create two templates:</strong> <code>index.html</code> (full page) and <code>content.html</code> (partial)</li>
+                    <li><strong>Check for HX-Request header:</strong> Return appropriate template based on request type</li>
+                    <li><strong>Use hx-push-url:</strong> Keep URLs bookmarkable and browser back button functional</li>
+                    <li><strong>Follow naming conventions:</strong> Blueprint names match folder names</li>
+                    <li><strong>Keep controllers thin:</strong> Move complex logic to models or service classes</li>
+                    <li><strong>Return HTML from controllers:</strong> HTMX expects HTML responses, not JSON</li>
+                    <li><strong>Use proper HTTP verbs:</strong> GET for reading, POST for creating, DELETE for deleting</li>
                 </ul>
 
-                <h3>API Endpoints</h3>
-                <p>When adding new endpoints, follow RESTful conventions:</p>
+                <h3>RESTful URL Conventions</h3>
+                <p>Follow these patterns for consistent API design:</p>
                 <ul>
-                    <li><code>GET /resource</code> - List all</li>
-                    <li><code>GET /resource/new</code> - New form</li>
-                    <li><code>POST /resource</code> - Create</li>
-                    <li><code>GET /resource/:id</code> - View one</li>
-                    <li><code>GET /resource/:id/edit</code> - Edit form</li>
-                    <li><code>PUT /resource/:id</code> - Update</li>
-                    <li><code>DELETE /resource/:id</code> - Delete</li>
+                    <li><code>GET /resource</code> - List all items</li>
+                    <li><code>GET /resource/create</code> - Display create form</li>
+                    <li><code>POST /resource</code> - Create new item</li>
+                    <li><code>GET /resource/:id</code> - View single item</li>
+                    <li><code>GET /resource/:id/edit</code> - Display edit form</li>
+                    <li><code>POST /resource/:id</code> - Update item</li>
+                    <li><code>DELETE /resource/:id</code> - Delete item</li>
+                </ul>
+
+                <h3>Troubleshooting Guide</h3>
+                <ul>
+                    <li><strong>Nothing happens when clicking:</strong> Check browser console for HTMX errors, verify HTMX script is loaded</li>
+                    <li><strong>Full page reload occurs:</strong> Missing <code>hx-get</code> or <code>hx-post</code> attribute on element</li>
+                    <li><strong>Content doesn't appear:</strong> Verify <code>hx-target</code> points to existing element ID</li>
+                    <li><strong>URL doesn't update:</strong> Add <code>hx-push-url="true"</code> to navigation links</li>
+                    <li><strong>Wrong template returned:</strong> Check <code>request.headers.get('HX-Request')</code> logic in controller</li>
                 </ul>
             </section>
 

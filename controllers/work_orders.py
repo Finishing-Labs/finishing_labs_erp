@@ -1,5 +1,5 @@
 """
-Production Controller - Work order management
+Work Orders Controller - Work order management
 
 Handles:
 - Listing all work orders
@@ -8,11 +8,11 @@ Handles:
 """
 from flask import Blueprint, render_template, request
 
-# Create blueprint for production/work order routes
-production_bp = Blueprint('production', __name__)
+# Create blueprint for work order routes
+work_orders_bp = Blueprint('work_orders', __name__)
 
 
-@production_bp.route('/')
+@work_orders_bp.route('/')
 def index():
     """
     Work orders list
@@ -20,12 +20,12 @@ def index():
     Returns content partial for HTMX, full page for direct navigation
     """
     if request.headers.get('HX-Request'):
-        return render_template('production/content.html', page_title='Work Orders')
-    return render_template('production/index.html', page_title='Work Orders')
+        return render_template('work_orders/content.html', page_title='Work Orders')
+    return render_template('work_orders/index.html', page_title='Work Orders')
 
 
 
-@production_bp.route('/builder')
+@work_orders_bp.route('/builder')
 def builder():
     """
     Work order builder interface
@@ -33,12 +33,12 @@ def builder():
     Returns content partial for HTMX, full page for direct navigation
     """
     if request.headers.get('HX-Request'):
-        return render_template('production/builder_content.html', page_title='Work Order Builder')
-    return render_template('production/builder.html', page_title='Work Order Builder')
+        return render_template('work_orders/builder_content.html', page_title='Work Order Builder')
+    return render_template('work_orders/builder.html', page_title='Work Order Builder')
 
 
 
-@production_bp.route('/<int:wo_id>')
+@work_orders_bp.route('/<int:wo_id>')
 def view(wo_id):
     """
     View single work order details
@@ -48,7 +48,7 @@ def view(wo_id):
 
     
    
-    return render_template('production/view_content.html',
+    return render_template('work_orders/view_content.html',
                              page_title=f'Work Order {wo_id}',
                              wo_id=wo_id)
 

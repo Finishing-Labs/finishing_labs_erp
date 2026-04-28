@@ -44,16 +44,16 @@ HOW IT WORKS:
                 </a>
 
                 {# Purchase Orders #}
-                <a href="/orders"
-                    class="sidebar-link {{ 'active' if request.endpoint and 'orders' in request.endpoint else '' }}">
+                <a href="/purchase-orders"
+                    class="sidebar-link {{ 'active' if request.endpoint and 'purchase_orders' in request.endpoint else '' }}">
                     <i class="fas fa-list-alt"></i>
                     <span>Purchase Orders</span>
                 </a>
 
                 {# New Purchase Order #}
 
-                <!--a href="/orders/create" 
-           class="sidebar-link {{ 'active' if request.endpoint == 'orders.create' else '' }}">
+                <!--a href="/purchase-orders/create" 
+           class="sidebar-link {{ 'active' if request.endpoint == 'purchase_orders.create' else '' }}">
             <i class="fas fa-plus-square"></i>
             <span>New Purchase Order</span>
         </a-->
@@ -61,15 +61,15 @@ HOW IT WORKS:
 
 
                 {# Work Order Builder #}
-                <!--a href="/production/builder" 
-           class="sidebar-link {{ 'active' if request.endpoint == 'production.builder' else '' }}">
+                <!--a href="/work-orders/builder" 
+           class="sidebar-link {{ 'active' if request.endpoint == 'work_orders.builder' else '' }}">
             <i class="fas fa-layer-group"></i>
             <span>Work Order Builder</span>
         </a-->
 
-                {# Production/Work Orders #}
-                <a href="/production"
-                    class="sidebar-link {{ 'active' if request.endpoint == 'production.index' else '' }}">
+                {# Work Orders #}
+                <a href="/work-orders"
+                    class="sidebar-link {{ 'active' if request.endpoint == 'work_orders.index' else '' }}">
                     <i class="fas fa-industry"></i>
                     <span>Work Orders</span>
                 </a>
