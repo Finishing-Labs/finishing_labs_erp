@@ -6,6 +6,7 @@ __pycache__/
 .Python
 env/
 venv/
+.venv/
 ENV/
 build/
 develop-eggs/
@@ -31,11 +32,11 @@ instance/
 *.db
 *.sqlite
 *.sqlite3
-*.sql
 
-# Environment
+# Environment - CRITICAL: Never commit these!
 .env
-.venv
+.env.local
+.env.*.local
 
 # IDE
 .vscode/
