@@ -424,8 +424,9 @@ def validate_customer_data(company_name, email):
                 <h3>Core Tables</h3>
                 <ul>
                     <li><strong>customers:</strong> Customer information and contacts</li>
-                    <li><strong>purchase_orders:</strong> Customer purchase orders (renamed from "orders")</li>
-                    <li><strong>work_orders:</strong> Production work orders (renamed from "production")</li>
+                    <li><strong>purchase_orders:</strong> Customer purchase orders </li>
+                    <li><strong>line_items:</strong> Individual items within a purchase order</li>
+                    <li><strong>work_orders:</strong> Production work orders </li>
                     <li><strong>packing_slips:</strong> Shipping documentation</li>
                 </ul>
 
@@ -445,7 +446,7 @@ DB_PORT=5432</code></pre>
                 </div>
 
                 <h3>Database Utility (database/db.py)</h3>
-                <p>The DB class provides a simple, PHP-like interface for executing SQL queries:</p>
+                <p>The DB class provides a simple interface for executing SQL queries:</p>
 
                 <h4>Available Methods</h4>
                 <div class="code-block">
